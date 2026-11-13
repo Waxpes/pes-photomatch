@@ -78,6 +78,10 @@ Chaque dossier contient des sous-dossiers (ex: `WEB_POSTPROS/`) avec les images 
 
 ### Chargement des photos (écran Setup)
 
+**Mode votant** : quand les photos viennent de Firebase (lien ou QR code), l'écran d'accueil affiche seulement les explications de vote, les consignes et un bouton "Voter" (`startVoterSession()`, qui démarre sur les photos pas encore notées s'il en reste). Le chargement de fichiers et la démo restent accessibles via le lien discret "Charger d'autres photos sur cet appareil".
+
+**Mode organisateur** (photos locales ou aucune photo) : écran de chargement ci-dessous.
+
 ```javascript
 // Chargement depuis dossier local (recommandé — détecte les lieux)
 <input type="file" webkitdirectory accept="image/*">

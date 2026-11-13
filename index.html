@@ -49,7 +49,10 @@ html,body{height:100%;overflow:hidden;font-family:'Lato',-apple-system,BlinkMacS
 .fb-dot.live{background:var(--g);box-shadow:0 0 5px var(--g)}
 
 /* ---- SETUP ---- */
-#s-setup .body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:14px;overflow-y:auto}
+#s-setup .body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px;gap:14px;overflow-y:auto}
+/* Auto margins center the content when it fits, without clipping the top when it overflows */
+#s-setup .setup-hero{margin-top:auto}
+#s-setup .setup-foot{margin-bottom:auto}
 .setup-hero{text-align:center}
 .setup-hero h1{font-size:26px;font-weight:800;color:var(--gd);letter-spacing:-.5px;margin-top:8px}
 .setup-hero p{font-size:13px;color:var(--muted);margin-top:3px}
@@ -74,6 +77,20 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
 .setup-tab.on{background:var(--g);color:#fff}
 .setup-foot{font-size:11px;color:#A5B5B2;text-align:center}
 .setup-foot a{color:#859F9B;cursor:pointer}
+.voter-card h2{font-size:17px;margin-bottom:12px}
+.voter-card h3{font-size:13px;font-weight:800;color:var(--gd);margin:16px 0 8px}
+.how{list-style:none;display:flex;flex-direction:column;gap:10px}
+.how li{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:var(--text);line-height:1.45}
+.how-ic{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;background:#fff;border:2px solid #CBDAD8}
+.how-smash{background:var(--g);border-color:var(--g);color:#fff}
+.how-pass{color:var(--r);border-color:#FFD0D0}
+.how-fave{color:var(--y);border-color:#FFE8A0}
+.rules{padding-left:18px;display:flex;flex-direction:column;gap:5px}
+.rules li{font-size:12px;color:var(--muted);line-height:1.45}
+.rules .ic{color:var(--gd)}
+.btn-vote-start{font-size:16px;padding:14px;margin-top:18px}
+.btn-vote-start:disabled{opacity:.6;cursor:wait}
+.voter-info{font-size:12px;color:var(--muted);text-align:center;margin-top:8px;margin-bottom:0}
 #file-info{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5;min-height:18px}
 
 /* ---- VOTING ---- */
@@ -354,6 +371,28 @@ input[type=password]{width:100%;border:2px solid #CBDAD8;border-radius:10px;padd
       <p>Vote photos — édition séminaire</p>
     </div>
 
+    <!-- Voter mode: shown when the shared photos come from Firebase (QR code / share link) -->
+    <div id="voter-card" class="box voter-card" style="display:none">
+      <h2>Comment voter</h2>
+      <ul class="how">
+        <li><span class="how-ic how-smash"><svg class="ic fill" aria-hidden="true"><use href="#i-heart"/></svg></span><div><strong>Smash</strong> : la photo te plaît. Glisse la photo vers la droite ou appuie sur le cœur.</div></li>
+        <li><span class="how-ic how-pass"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span><div><strong>Pass</strong> : elle ne te parle pas. Glisse vers la gauche ou appuie sur la croix.</div></li>
+        <li><span class="how-ic how-fave"><svg class="ic fill" aria-hidden="true"><use href="#i-star"/></svg></span><div><strong>Coup de cœur</strong> : une photo exceptionnelle. Appuie sur l'étoile, ça compte aussi comme un smash.</div></li>
+      </ul>
+      <h3>Consignes</h3>
+      <ul class="rules">
+        <li>Vote à l'instinct : quelques secondes par photo suffisent.</li>
+        <li>Garde les coups de cœur pour les photos vraiment exceptionnelles.</li>
+        <li>Les photos que personne n'a encore notées passent en premier : à plusieurs, on couvre tout le reportage.</li>
+        <li>Tu peux te concentrer sur un lieu avec le bouton <svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> en haut de l'écran.</li>
+        <li>Quand tu as fini ou que tu passes le téléphone, appuie sur <svg class="ic" aria-hidden="true"><use href="#i-stop"/></svg> Fin.</li>
+        <li>Les votes sont anonymes.</li>
+      </ul>
+      <button class="btn-main btn-vote-start" id="vote-btn" onclick="startVoterSession()" disabled>Chargement des photos…</button>
+      <p class="voter-info" id="voter-info"></p>
+    </div>
+
+    <div id="organizer-zone">
     <div id="resume-card" class="resume-card" style="display:none">
       <div>
         <div class="rn" id="rb-n">0</div>
@@ -388,8 +427,10 @@ input[type=password]{width:100%;border:2px solid #CBDAD8;border-radius:10px;padd
 
       <button class="btn-alt" onclick="loadDemo()" style="margin-top:7px;"><svg class="ic" aria-hidden="true"><use href="#i-bike"/></svg> Démo (20 photos)</button>
     </div>
+    </div>
 
-    <p class="setup-foot"><a onclick="goAdmin()">Administration</a> · Données stockées localement</p>
+    <p class="setup-foot" id="setup-foot"><a onclick="goAdmin()">Administration</a> · Données stockées localement</p>
+    <p class="setup-foot" id="voter-foot" style="display:none;"><a onclick="showOrganizerZone()">Charger d'autres photos sur cet appareil</a></p>
   </div>
 </div>
 
@@ -529,7 +570,7 @@ input[type=password]{width:100%;border:2px solid #CBDAD8;border-radius:10px;padd
       </div>
       <div class="step">
         <h4>Étape 3 : partage les photos</h4>
-        <p>Envoie une copie allégée des photos chargées sur ce poste (1080 px) dans Firebase, pour que les autres appareils les voient sans rien sélectionner. Les originaux restent sur ton poste. Si l'envoi est interrompu, relance-le : les photos déjà envoyées sont ignorées.</p>
+        <p>Envoie une copie allégée des photos chargées sur ce poste (900 px) dans Firebase, pour que les autres appareils les voient sans rien sélectionner. Les originaux restent sur ton poste. Si l'envoi est interrompu, relance-le : les photos déjà envoyées sont ignorées.</p>
         <div class="quota" id="quota"></div>
         <div class="up-track" style="display:none;"><div class="up-bar" id="quota-bar"></div></div>
         <div class="up-status" id="up-status"></div>
@@ -782,7 +823,36 @@ function switchSetupTab(t){
 }
 function hasBlobPhotos(){return S.photos.some(p=>p.url.startsWith('blob:'));}
 
+// Voters arriving from the QR code only see the voting instructions; organizers keep the loading tools
+let loadingShared=false,organizerZoneForced=false;
+function isVoterMode(){
+  if(organizerZoneForced)return false;
+  return loadingShared||(S.photos.length>0&&S.photos.every(isFbPhoto));
+}
+function renderSetupMode(){
+  const voter=isVoterMode();
+  document.getElementById('voter-card').style.display=voter?'block':'none';
+  document.getElementById('organizer-zone').style.display=voter?'none':'block';
+  document.getElementById('setup-foot').style.display=voter?'none':'block';
+  document.getElementById('voter-foot').style.display=voter?'block':'none';
+  if(!voter)return;
+  const btn=document.getElementById('vote-btn'),info=document.getElementById('voter-info');
+  const ready=!loadingShared&&S.photos.length>0;
+  btn.disabled=!ready;
+  btn.innerHTML=ready?ic('play','fill')+' Voter':'Chargement des photos…';
+  const unseen=S.photos.filter(p=>!((S.votes[p.id]?.smash||0)+(S.votes[p.id]?.pass||0))).length;
+  info.textContent=ready?`${S.photos.length} photos · ${unseen} pas encore notées`:'';
+}
+function showOrganizerZone(){organizerZoneForced=true;renderSetupMode();updateResume();}
+function startVoterSession(){
+  if(!S.photos.length)return;
+  // Unrated photos first so several voters cover the whole set; everything once all are rated
+  const hasUnseen=S.photos.some(p=>!((S.votes[p.id]?.smash||0)+(S.votes[p.id]?.pass||0)));
+  S.activeLocation='ALL';S.queueFilter=hasUnseen?'unseen':'all';
+  newQueue();show('voting');renderVoting();
+}
 function updateResume(){
+  renderSetupMode();
   const c=document.getElementById('resume-card');if(!c)return;
   if(!S.photos.length){c.style.display='none';return;}
   c.style.display='flex';
@@ -1336,7 +1406,7 @@ function closeLbox(e){
 //  /pes/photos/thumb/{key} data url (THUMB_PX)
 // =====================================================
 let fbStream=null,remoteVotes={},mergeLocalVotes=false,remoteTimer=null;
-let publishing=false,remotePhotoCount=null,remoteBytes=0;
+let publishing=false,remotePhotoCount=null,remoteBytes=0,remoteKeys=null;
 const fmtMB=b=>Math.round(b/1e6)+' Mo';
 
 function isFbUrl(url){return /^https:\/\/[^/]+\.(firebaseio\.com|firebasedatabase\.app)$/.test(url);}
@@ -1479,10 +1549,14 @@ function renderFbPanel(){
 }
 function renderPublishState(msg){
   const btn=document.getElementById('up-btn'),stop=document.getElementById('up-stop'),st=document.getElementById('up-status');
-  const localCount=S.photos.filter(p=>!isFbPhoto(p)).length;
+  const local=S.photos.filter(p=>!isFbPhoto(p)),localCount=local.length;
+  // Only the local photos missing from Firebase still need sharing
+  const missing=remoteKeys?local.filter(p=>!remoteKeys.has(fbKey(p.id))).length:localCount;
   if(btn){
-    btn.disabled=!fbURL||!localCount||publishing;
-    btn.innerHTML=ic('cloud-up')+(localCount?` Partager les ${localCount} photos de ce poste`:' Partager les photos');
+    btn.disabled=!fbURL||!missing||publishing;
+    btn.innerHTML=!localCount?ic('cloud-up')+' Partager les photos'
+      :!missing?ic('check-circle')+' Toutes les photos de ce poste sont partagées'
+      :ic('cloud-up')+(missing<localCount?` Partager les ${missing} photos manquantes`:` Partager les ${localCount} photos de ce poste`);
   }
   if(stop)stop.style.display=publishing?'flex':'none';
   renderQuota();
@@ -1501,6 +1575,7 @@ async function fetchRemoteMeta(){
 function setRemoteStats(meta){
   const list=Object.values(meta);
   remotePhotoCount=list.length;
+  remoteKeys=new Set(Object.keys(meta));
   remoteBytes=list.reduce((s,m)=>s+(m.bytes||0),0);
 }
 async function refreshRemoteCount(){
@@ -1540,13 +1615,18 @@ function connectSync(url){
   if(isVisible('s-admin')&&currentTab()==='firebase')renderFbPanel();
   // Devices without usable local photos switch to the shared ones
   if(!S.photos.length||hasBlobPhotos()||S.photos.every(isFbPhoto)){
-    return useRemotePhotos().then(ok=>{if(ok)toast(`${S.photos.length} photos partagées chargées`,'ok');return ok;});
+    loadingShared=true;updateResume();
+    return useRemotePhotos().then(ok=>{
+      loadingShared=false;updateResume();
+      if(ok&&!isVoterMode())toast(`${S.photos.length} photos partagées chargées`,'ok');
+      return ok;
+    });
   }
   return Promise.resolve(false);
 }
 function disconnectFirebase(){
   stopPublish();stopSync();
-  fbURL=null;remoteVotes={};remotePhotoCount=null;clearFb();updateFbDot();renderFbPanel();toast('Déconnecté : mode local');
+  fbURL=null;remoteVotes={};remotePhotoCount=null;remoteKeys=null;clearFb();updateFbDot();renderFbPanel();toast('Déconnecté : mode local');
 }
 
 // ---- Photo sharing: resized copies of the local photos go to Firebase ----
@@ -1611,7 +1691,7 @@ async function publishPhotos(){
   const worker=async()=>{
     while(publishing&&todo.length){
       const p=todo.shift();
-      try{sentBytes+=await uploadPhoto(p);done++;remotePhotoCount=skipped+done;remoteBytes=existingBytes+sentBytes;checkLimit();}
+      try{sentBytes+=await uploadPhoto(p);done++;remoteKeys?.add(fbKey(p.id));remotePhotoCount=skipped+done;remoteBytes=existingBytes+sentBytes;checkLimit();}
       catch(err){failed.push(p.id);console.error('Photo upload failed',p.id,err);}
       progress();
     }
@@ -1767,7 +1847,7 @@ async function executeDeletePhotos(){
     const res=await fetch(fbPath('photos'),{method:'DELETE'});
     if(!res.ok)throw new Error('HTTP '+res.status);
   }catch(err){console.error('Shared photos deletion failed',err);toast('Suppression des photos échouée','err');return;}
-  remotePhotoCount=0;remoteBytes=0;photoVersion.clear();imgCache.clear();
+  remotePhotoCount=0;remoteBytes=0;remoteKeys=new Set();photoVersion.clear();imgCache.clear();
   try{if(window.caches)await caches.delete(IMG_CACHE);}catch(err){console.warn('Image cache cleanup failed',err);}
   if(S.photos.length&&S.photos.every(isFbPhoto)){S.photos=[];persist();updateResume();}
   renderFbPanel();toast('Photos partagées supprimées','ok');
