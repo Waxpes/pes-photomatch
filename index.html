@@ -45,8 +45,6 @@ html,body{height:100%;overflow:hidden;font-family:'Lato',-apple-system,BlinkMacS
 .btn-pill{background:none;border:1.5px solid #CBDAD8;border-radius:9px;padding:4px 10px;font-size:12px;color:var(--muted);cursor:pointer;transition:border-color .15s,color .15s;white-space:nowrap}
 .btn-pill:hover{border-color:var(--g);color:var(--gd)}
 .btn-pill.warn{color:#8A6B6B;border-color:#D8C8C8}
-.fb-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#CCC;margin-left:4px;vertical-align:middle;transition:background .3s}
-.fb-dot.live{background:var(--g);box-shadow:0 0 5px var(--g)}
 
 /* ---- SETUP ---- */
 #s-setup .body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px;gap:14px;overflow-y:auto}
@@ -346,7 +344,6 @@ input[type=password]{width:100%;border:2px solid #CBDAD8;border-radius:10px;padd
   <symbol id="i-folder" viewBox="0 0 24 24"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></symbol>
   <symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
   <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
-  <symbol id="i-bike" viewBox="0 0 24 24"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></symbol>
   <symbol id="i-monitor" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></symbol>
   <symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
@@ -383,7 +380,7 @@ input[type=password]{width:100%;border:2px solid #CBDAD8;border-radius:10px;padd
       <ul class="rules">
         <li>Vote à l'instinct : quelques secondes par photo suffisent.</li>
         <li>Garde les coups de cœur pour les photos vraiment exceptionnelles.</li>
-        <li>Les photos que personne n'a encore notées passent en premier : à plusieurs, on couvre tout le reportage.</li>
+        <li>Les photos que personne n'a encore notées passent en premier, mais il est possible de modifier cela avec les boutons "Toutes", "Pas encore vues" et "Déjà vues"</li>
         <li>Tu peux te concentrer sur un lieu avec le bouton <svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> en haut de l'écran.</li>
         <li>Quand tu as fini ou que tu passes le téléphone, appuie sur <svg class="ic" aria-hidden="true"><use href="#i-stop"/></svg> Fin.</li>
         <li>Les votes sont anonymes.</li>
@@ -425,12 +422,11 @@ input[type=password]{width:100%;border:2px solid #CBDAD8;border-radius:10px;padd
         <button class="btn-main" onclick="loadURLs()">Charger →</button>
       </div>
 
-      <button class="btn-alt" onclick="loadDemo()" style="margin-top:7px;"><svg class="ic" aria-hidden="true"><use href="#i-bike"/></svg> Démo (20 photos)</button>
     </div>
     </div>
 
     <p class="setup-foot" id="setup-foot"><a onclick="goAdmin()">Administration</a> · Données stockées localement</p>
-    <p class="setup-foot" id="voter-foot" style="display:none;"><a onclick="showOrganizerZone()">Charger d'autres photos sur cet appareil</a></p>
+    <p class="setup-foot" id="voter-foot" style="display:none;"><a onclick="goAdmin()">Administration</a> · <a onclick="showOrganizerZone()">Charger d'autres photos sur cet appareil</a></p>
   </div>
 </div>
 
@@ -446,7 +442,6 @@ input[type=password]{width:100%;border:2px solid #CBDAD8;border-radius:10px;padd
     </div>
     <div class="hdr-mid" id="hdr-mid" onclick="openLocModal()" title="Changer le lieu">
       <b id="hdr-smash">0</b> smashes · <span id="hdr-rem">0</span> restantes
-      <span class="fb-dot" id="fb-dot"></span>
     </div>
     <div class="hdr-acts">
       <button class="btn-pill" onclick="openLocModal()" title="Changer le lieu / filtre" aria-label="Changer le lieu"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg></button>
@@ -484,7 +479,7 @@ input[type=password]{width:100%;border:2px solid #CBDAD8;border-radius:10px;padd
       <div class="prog-track"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
       <div class="prog-txt" id="prog-txt"></div>
     </div>
-    <div class="kbd-hint">← → voter · ↑ coup de cœur · R reshuffle · T terminer · A admin</div>
+    <div class="kbd-hint">← → voter · ↑ coup de cœur · R reshuffle · T terminer</div>
   </div>
 </div>
 
@@ -520,7 +515,7 @@ input[type=password]{width:100%;border:2px solid #CBDAD8;border-radius:10px;padd
   <div class="admin-tabs">
     <div class="atab on"  id="atab-results"  onclick="switchTab('results')"><svg class="ic" aria-hidden="true"><use href="#i-trophy"/></svg> Résultats</div>
     <div class="atab"     id="atab-lieux"    onclick="switchTab('lieux')"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> Par lieu</div>
-    <div class="atab atab-gear" id="atab-firebase" onclick="switchTab('firebase')" title="Multi-device (Firebase)" aria-label="Réglages"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg><span class="fb-dot"></span></div>
+    <div class="atab atab-gear" id="atab-firebase" onclick="switchTab('firebase')" title="Multi-device (Firebase)" aria-label="Réglages"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg></div>
   </div>
 
   <!-- RESULTS -->
@@ -580,7 +575,7 @@ input[type=password]{width:100%;border:2px solid #CBDAD8;border-radius:10px;padd
       </div>
       <div class="step">
         <h4>Étape 4 : partage le lien ou le QR code</h4>
-        <p>Ce lien connecte automatiquement l'appareil à Firebase et charge les photos partagées.</p>
+        <p>Ce lien ouvre l'app connectée à la base de l'événement, avec les photos partagées.</p>
         <button class="btn-main" id="copy-link-btn" onclick="copyShareLink()" disabled><svg class="ic" aria-hidden="true"><use href="#i-link"/></svg> Copier le lien multi-device</button>
         <div class="qr-box" id="qr-box" style="display:none;">
           <p>Scanne pour voter depuis n'importe quel appareil</p>
@@ -659,6 +654,9 @@ input[type=password]{width:100%;border:2px solid #CBDAD8;border-radius:10px;padd
 // =====================================================
 const SK  = 'pes-vote-v4';
 const SFK = 'pes-fb-url';
+// Event database, used when the page is opened without the #fb- share parameter (not a secret: it is in the QR code)
+const DEFAULT_FB_URL = 'https://pes---vote-photos-pro-default-rtdb.europe-west1.firebasedatabase.app';
+const FB_OFF = 'off';      // stored in SFK when the user disconnected on purpose
 const FB_ROOT   = 'pes';   // every Firebase node lives under /pes (votes, photos)
 const FB_PREFIX = 'fb:';   // url prefix of photos shared through Firebase
 const FULL_PX = 900, FULL_Q = .68, THUMB_PX = 240, THUMB_Q = .6;
@@ -667,7 +665,6 @@ const FB_STORAGE_BYTES = 1e9, FB_SAFE_BYTES = 9e8, PROJECT_AFTER = 20;
 const IMG_CACHE = 'pes-photos-v1'; // device cache (Cache Storage), each photo downloaded once per device
 const DT  = 72; // drag threshold px
 const IMG_RE = /\.(jpe?g|png|webp|gif|heic|avif)$/i;
-const DEMO_URLS = Array.from({length:20},(_,i)=>`https://picsum.photos/seed/pes${String(i+1).padStart(2,'0')}/420/600`);
 
 // =====================================================
 //  STATE
@@ -703,7 +700,7 @@ function hydrate(){
 }
 function saveFb(url){try{localStorage.setItem(SFK,url);}catch(_){}}
 function loadFb(){return localStorage.getItem(SFK)||null;}
-function clearFb(){try{localStorage.removeItem(SFK);}catch(_){}}
+function clearFb(){saveFb(FB_OFF);}
 
 // =====================================================
 //  LOCATION HELPERS
@@ -825,9 +822,10 @@ function hasBlobPhotos(){return S.photos.some(p=>p.url.startsWith('blob:'));}
 
 // Voters arriving from the QR code only see the voting instructions; organizers keep the loading tools
 let loadingShared=false,organizerZoneForced=false;
+// Voter view by default; the loading tools show up only for local / URL photos or on demand
 function isVoterMode(){
   if(organizerZoneForced)return false;
-  return loadingShared||(S.photos.length>0&&S.photos.every(isFbPhoto));
+  return!S.photos.some(p=>!isFbPhoto(p));
 }
 function renderSetupMode(){
   const voter=isVoterMode();
@@ -839,9 +837,10 @@ function renderSetupMode(){
   const btn=document.getElementById('vote-btn'),info=document.getElementById('voter-info');
   const ready=!loadingShared&&S.photos.length>0;
   btn.disabled=!ready;
-  btn.innerHTML=ready?ic('play','fill')+' Voter':'Chargement des photos…';
+  btn.innerHTML=ready?ic('play','fill')+' Voter':loadingShared?'Chargement des photos…':'Photos pas encore disponibles';
   const unseen=S.photos.filter(p=>!((S.votes[p.id]?.smash||0)+(S.votes[p.id]?.pass||0))).length;
-  info.textContent=ready?`${S.photos.length} photos · ${unseen} pas encore notées`:'';
+  info.textContent=ready?`${S.photos.length} photos · ${unseen} pas encore notées`
+    :loadingShared?'':'Reviens dans quelques instants ou demande à l\'organisateur.';
 }
 function showOrganizerZone(){organizerZoneForced=true;renderSetupMode();updateResume();}
 function startVoterSession(){
@@ -881,11 +880,14 @@ function extractId(url){
   try{const u=new URL(url);const pts=u.pathname.split('/').filter(Boolean);return(pts[pts.length-1]||'').split('?')[0]||url.slice(-40);}
   catch{return url.slice(-40);}
 }
+// True once a folder or files were picked in this page session (their blob urls are alive)
+let localPhotosLive=false;
 function loadFolder(input){
   const files=Array.from(input.files).filter(f=>IMG_RE.test(f.name));
   if(!files.length){toast('Aucune image trouvée','warn');return;}
   const info=document.getElementById('file-info');
   if(info)info.textContent='Chargement…';
+  localPhotosLive=true;
   S.photos=files.map(f=>({
     id:f.webkitRelativePath||f.name,
     url:URL.createObjectURL(f),
@@ -901,6 +903,7 @@ function loadFolder(input){
 function loadFiles(input){
   const files=Array.from(input.files).filter(f=>IMG_RE.test(f.name));
   if(!files.length){toast('Aucune image trouvée','warn');return;}
+  localPhotosLive=true;
   S.photos=files.map(f=>({id:f.name,url:URL.createObjectURL(f),location:null}));
   finishLoad();
   setTimeout(()=>startVoting(),200);
@@ -915,10 +918,6 @@ function loadURLs(){
   S.photos=urls.map(url=>({id:extractId(url),url,location:null}));
   finishLoad();
   startVoting();
-}
-function loadDemo(){
-  S.photos=DEMO_URLS.map(url=>({id:extractId(url),url,location:null}));
-  S.votes={};persist();startVoting();
 }
 function finishLoad(){
   const ids=new Set(S.photos.map(p=>p.id));
@@ -981,7 +980,7 @@ function updateHdr(){
     mid.classList.toggle('loc-active',S.activeLocation!=='ALL');
     // Show location name in mid if filtered
     if(S.activeLocation!=='ALL'){
-      mid.innerHTML=`${ic('pin')} <b>${fmtLoc(S.activeLocation)}</b> · ${rem} restantes<span class="fb-dot${fbURL?' live':''}" id="fb-dot"></span>`;
+      mid.innerHTML=`${ic('pin')} <b>${fmtLoc(S.activeLocation)}</b> · ${rem} restantes`;
     }
   }
 }
@@ -1414,7 +1413,8 @@ function isFbUrl(url){return /^https:\/\/[^/]+\.(firebaseio\.com|firebasedatabas
 function fbKey(id){return id.replace(/[.#$\[\]\/%]/g,c=>'%'+c.charCodeAt(0).toString(16).toUpperCase().padStart(2,'0'));}
 function fbPath(path,base=fbURL){return`${base}/${FB_ROOT}/${path.split('/').map(encodeURIComponent).join('/')}.json`;}
 async function fbPut(path,value){
-  const res=await fetch(fbPath(path),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(value)});
+  // print=silent: Firebase answers 204 instead of echoing the written data (downloads count against the quota)
+  const res=await fetch(fbPath(path)+'?print=silent',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(value)});
   if(!res.ok)throw new Error(`HTTP ${res.status} on ${path}`);
 }
 
@@ -1422,7 +1422,7 @@ function fbWrite(photoId,type){
   if(!fbURL)return;
   const inc={'.sv':{increment:1}};
   const body=type==='fave'?{fave:inc,smash:inc}:{[type]:inc};
-  fetch(fbPath('votes/'+fbKey(photoId)),{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+  fetch(fbPath('votes/'+fbKey(photoId))+'?print=silent',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
     .catch(err=>{console.error('Firebase vote write failed',photoId,err);toast('Vote non synchronisé (réseau)','warn');});
 }
 
@@ -1437,8 +1437,6 @@ function startSync(){
   fbStream.addEventListener('put',e=>onEvt(e,false));
   fbStream.addEventListener('patch',e=>onEvt(e,true));
   fbStream.addEventListener('cancel',()=>{console.error('Firebase stream cancelled (rules?)');toast('Firebase refuse la lecture des votes (règles ?)','err');});
-  fbStream.onopen=()=>updateFbDot(true);
-  fbStream.onerror=()=>updateFbDot(false);
 }
 function stopSync(){if(fbStream){fbStream.close();fbStream=null;}}
 function applyRemote({path,data},isPatch){
@@ -1466,6 +1464,7 @@ function pushMissingVotes(remote){
   S.photos.forEach(p=>{
     const v=S.votes[p.id],k=fbKey(p.id);
     if(!v||remote[k]||!(v.smash||v.pass||v.fave))return;
+    if(!isFbPhoto(p)&&!p.url.startsWith('blob:'))return; // URL photos never reach Firebase
     remote[k]={smash:v.smash||0,pass:v.pass||0,fave:v.fave||0};
     fbPut('votes/'+k,remote[k]).catch(err=>console.error('Firebase vote push failed',p.id,err));
   });
@@ -1516,12 +1515,6 @@ async function useRemotePhotos(){
   }
 }
 
-function updateFbDot(live){
-  document.querySelectorAll('.fb-dot').forEach(d=>{
-    d.className='fb-dot'+(fbURL&&live!==false?' live':'');
-    d.title=fbURL?(live===false?'Firebase : reconnexion…':'Firebase connecté'):'Mode local';
-  });
-}
 function renderFbPanel(){
   const unlocked=isUnlocked();
   document.getElementById('gear-lock').style.display=unlocked?'none':'flex';
@@ -1611,10 +1604,10 @@ function connectFirebase(){
 function connectSync(url){
   fbURL=url;saveFb(url);
   remoteVotes={};mergeLocalVotes=true;
-  updateFbDot();startSync();
+  startSync();
   if(isVisible('s-admin')&&currentTab()==='firebase')renderFbPanel();
-  // Devices without usable local photos switch to the shared ones
-  if(!S.photos.length||hasBlobPhotos()||S.photos.every(isFbPhoto)){
+  // The shared photos replace anything except a folder picked in this session (URLs, expired blobs)
+  if(!localPhotosLive){
     loadingShared=true;updateResume();
     return useRemotePhotos().then(ok=>{
       loadingShared=false;updateResume();
@@ -1626,7 +1619,7 @@ function connectSync(url){
 }
 function disconnectFirebase(){
   stopPublish();stopSync();
-  fbURL=null;remoteVotes={};remotePhotoCount=null;remoteKeys=null;clearFb();updateFbDot();renderFbPanel();toast('Déconnecté : mode local');
+  fbURL=null;remoteVotes={};remotePhotoCount=null;remoteKeys=null;clearFb();renderFbPanel();toast('Déconnecté : mode local');
 }
 
 // ---- Photo sharing: resized copies of the local photos go to Firebase ----
@@ -1713,7 +1706,12 @@ function stopPublish(){if(publishing){publishing=false;renderPublishState('Inter
 // Share link (base64url encoded firebase URL in hash)
 function b64e(s){return btoa(unescape(encodeURIComponent(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');}
 function b64d(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return decodeURIComponent(escape(atob(s)));}
-function getShareLink(){if(!fbURL)return null;return window.location.href.split('#')[0]+'#fb-'+b64e(fbURL);}
+// Plain URL for the event database (connected by default); #fb- only to point devices at another database
+function getShareLink(){
+  if(!fbURL)return null;
+  const base=window.location.href.split('#')[0];
+  return fbURL===DEFAULT_FB_URL?base:base+'#fb-'+b64e(fbURL);
+}
 function copyShareLink(){
   const link=getShareLink();if(!link){toast('Connecte Firebase d\'abord','warn');return;}
   navigator.clipboard.writeText(link).then(()=>toast('Lien copié','ok')).catch(()=>toast('Copie le lien affiché sous le QR code','warn'));
@@ -2036,10 +2034,14 @@ function handleHash(){
   connectSync(url);
 }
 window.addEventListener('hashchange',handleHash);
-// A share link wins over the saved connection
+// A share link wins over the saved connection, which wins over the default event database
 const sfb=loadFb();
 if(window.location.hash.startsWith('#fb-'))handleHash();
-else{if(sfb&&isFbUrl(sfb))connectSync(sfb);handleHash();}
+else{
+  const url=sfb===FB_OFF?null:(sfb&&isFbUrl(sfb)?sfb:DEFAULT_FB_URL);
+  if(url)connectSync(url);else updateResume();
+  handleHash();
+}
 </script>
 </body>
 </html>

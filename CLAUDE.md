@@ -78,7 +78,7 @@ Chaque dossier contient des sous-dossiers (ex: `WEB_POSTPROS/`) avec les images 
 
 ### Chargement des photos (écran Setup)
 
-**Mode votant** : quand les photos viennent de Firebase (lien ou QR code), l'écran d'accueil affiche seulement les explications de vote, les consignes et un bouton "Voter" (`startVoterSession()`, qui démarre sur les photos pas encore notées s'il en reste). Le chargement de fichiers et la démo restent accessibles via le lien discret "Charger d'autres photos sur cet appareil".
+**Mode votant (vue par défaut)** : sur le lien simple comme sur le QR code, l'app se connecte à la base de l'événement (`DEFAULT_FB_URL`, sauf lien `#fb-` ou déconnexion volontaire mémorisée `pes-fb-url = off`). L'écran d'accueil affiche seulement les explications de vote, les consignes et un bouton "Voter" (`startVoterSession()`, qui démarre sur les photos pas encore notées s'il en reste). Le lien Administration et le chargement de fichiers restent accessibles via le pied de page discret "Charger d'autres photos sur cet appareil".
 
 **Mode organisateur** (photos locales ou aucune photo) : écran de chargement ci-dessous.
 
@@ -144,7 +144,8 @@ let S = {
 - **Reset des votes** : supprime uniquement `/pes/votes`. **Supprimer les photos partagées** (confirmation `PHOTOS`) supprime uniquement `/pes/photos`.
 - Les appareils sans photos locales utilisables chargent automatiquement le catalogue partagé
 - Votes : écriture atomique (`{".sv":{"increment":1}}` en PATCH), lecture en temps réel via le streaming REST (EventSource), Firebase fait foi
-- Lien partageable : `#fb-{base64url(firebaseURL)}` + QR code
+- Lien partageable + QR code : l'URL simple pour la base par défaut ; `#fb-{base64url(firebaseURL)}` seulement pour une autre base (les anciens liens `#fb-` restent lus)
+- Écritures en `?print=silent` (réponse 204) : Firebase compte les réponses dans le quota de téléchargement (10 Go/mois en Spark)
 - **⚠️ Limitation** : Firebase REST bloqué par la CSP de claude.ai → ne fonctionne que depuis GitHub Pages ou localhost
 
 ### Arborescence Firebase
