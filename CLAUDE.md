@@ -6,11 +6,9 @@ Application web **Tinder-style** de vote sur des photos d'événement pour l'ass
 
 ---
 
-## Artifact publié
+## Déploiement
 
-- **URL artifact Claude** : https://claude.ai/artifact/M2C4r7W19s5Wx5aNCb26Mm
-- **Repo GitHub** : git@github-pes:Waxpes/pes-photomatch.git
-- **Déploiement cible** : GitHub Pages → `https://waxpes.github.io/pes-photomatch`
+- **Déploiement cible** : GitHub Pages (Settings > Pages > Branch: main / root) → `https://waxpes.github.io/pes-photomatch`
 - **Fichier** : `index.html` (single-file app, ~70KB, zéro dépendance npm)
 
 ---
@@ -137,16 +135,15 @@ let S = {
 - Format de sauvegarde : `{app:'pes-photomatch', format:1, savedAt, source, votes:{[id]:{smash,pass,fave}}, ranking:[…]}`
 - **Zone sensible** : reset des votes (confirmation `RESET`). Export et reset ne sont plus accessibles ailleurs.
 - Connexion Firebase (URL `firebaseio.com` ou `firebasedatabase.app`)
-- URL EU du projet : `https://pes---vote-photos-pro-default-rtdb.europe-west1.firebasedatabase.app`
+- URL de la base de l'événement : constante `DEFAULT_FB_URL` dans `index.html`
 - **Partage des photos** : le poste qui a chargé le dossier envoie des copies JPEG (900 px q0.68 + miniature 240 px q0.6) en data URL, avec leur taille (`bytes`) dans la meta. Reprise possible (les photos déjà présentes sont ignorées). Les originaux restent sur le poste, rien n'est publié dans le repo.
 - **Garde-fou stockage** : après 20 photos, l'envoi projette le total à partir des tailles réelles et s'arrête au-delà de 900 Mo (`FB_SAFE_BYTES`, plan Spark = 1 Go). Jauge d'occupation dans le panneau.
 - **Cache appareil** : les images Firebase sont mises en Cache Storage (`pes-photos-v1`, clé versionnée par `bytes`), donc téléchargées une seule fois par appareil.
 - **Reset des votes** : supprime uniquement `/pes/votes`. **Supprimer les photos partagées** (confirmation `PHOTOS`) supprime uniquement `/pes/photos`.
 - Les appareils sans photos locales utilisables chargent automatiquement le catalogue partagé
-- Votes : écriture atomique (`{".sv":{"increment":1}}` en PATCH), lecture en temps réel via le streaming REST (EventSource), Firebase fait foi
+- Votes : écriture atomique (`{".sv":{"increment":1}}` en PATCH). Lecture : flux temps réel (EventSource) **uniquement quand l'écran admin est visible** ; ailleurs, lecture ponctuelle (`refreshVotesOnce()`) au démarrage d'une session de vote et au retour à l'accueil. Limite Spark : 100 connexions simultanées, un votant n'en garde aucune. Firebase fait foi.
 - Lien partageable + QR code : l'URL simple pour la base par défaut ; `#fb-{base64url(firebaseURL)}` seulement pour une autre base (les anciens liens `#fb-` restent lus)
 - Écritures en `?print=silent` (réponse 204) : Firebase compte les réponses dans le quota de téléchargement (10 Go/mois en Spark)
-- **⚠️ Limitation** : Firebase REST bloqué par la CSP de claude.ai → ne fonctionne que depuis GitHub Pages ou localhost
 
 ### Arborescence Firebase
 
@@ -197,42 +194,9 @@ const SFK = 'pes-fb-url';    // URL Firebase
 
 ## Ce qui reste à faire / TODOs
 
-1. **Firebase multi-device** : fonctionne depuis GitHub Pages (pas depuis l'artifact claude.ai)
-2. **Chargement local** : blob URLs mortes après refresh → re-sélectionner le dossier (ou utiliser les photos partagées)
-3. **Quotas Firebase Spark** : 1 Go stocké, 10 Go/mois téléchargés. Vérifier la taille réelle après le partage des ~2447 photos.
-4. **Règles Firebase** : ouvertes pendant l'événement, à refermer après
-
----
-
-## Setup GitHub (SSH multi-comptes)
-
-```
-# ~/.ssh/config
-Host github.com
-  HostName github.com
-  User git
-  IdentityFile ~/.ssh/id_ed25519        # compte pro
-
-Host github-pes
-  HostName github.com
-  User git
-  IdentityFile ~/.ssh/id_rsa_waxpes     # compte PES (Waxpes)
-```
-
-```bash
-# Cloner avec le bon compte
-git clone git@github-pes:Waxpes/pes-photomatch.git
-
-# Uploader le HTML
-cp index.html pes-photomatch/
-cd pes-photomatch
-git add index.html
-git commit -m "feat: Paris en Selle photo vote app"
-git push
-
-# Activer GitHub Pages : Settings → Pages → Branch: main / root
-# URL résultante : https://waxpes.github.io/pes-photomatch
-```
+1. **Chargement local** : blob URLs mortes après refresh → re-sélectionner le dossier (ou utiliser les photos partagées)
+2. **Quotas Firebase Spark** : 1 Go stocké, 10 Go/mois téléchargés. Vérifier la taille réelle après le partage des ~2447 photos.
+3. **Règles Firebase** : ouvertes pendant l'événement, à refermer après
 
 ---
 
