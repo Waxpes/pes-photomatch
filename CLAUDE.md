@@ -19,8 +19,9 @@ Application web **Tinder-style** de vote sur des photos d'événement pour l'ass
 
 - **Pure HTML/CSS/JS** — aucun framework, aucun build, aucun npm
 - **Stockage** : `localStorage` (votes persistés par nom de fichier)
-- **Multi-device optionnel** : Firebase Realtime Database via REST API (fetch, pas de SDK)
-- **QR Code** : `qrcode@1.5.3` depuis jsDelivr CDN
+- **Multi-device optionnel** : Firebase Realtime Database via REST API (fetch + EventSource pour le temps réel, pas de SDK)
+- **QR Code** : `qrcode-generator@1.4.4` depuis jsDelivr CDN (global `qrcode()`)
+- **Font** : Lato (Google Fonts), logo PES embarqué en base64
 
 ---
 
@@ -96,24 +97,19 @@ Chaque dossier contient des sous-dossiers (ex: `WEB_POSTPROS/`) avec les images 
 
 ```javascript
 let S = {
-  photos:         [],     // [{id: webkitRelativePath, url: blob:..., location: 'ALMA'}]
-  votes:          {},     // {[id]: {smash: number, pass: number, fave: number}}
+  photos:         [],     // [{id: webkitRelativePath, url: 'blob:…' | 'https://…' | 'fb:<clé>', location, w?, h?}]
+  votes:          {},     // {[id]: {smash, pass, fave}}
   queue:          [],     // indices shufflés (Fisher-Yates)
   queuePos:       0,
-  activeLocation: 'ALL', // filtre lieu actif
-  queueFilter:    'all', // 'all' | 'unseen' | 'seen'
-  sessionSmashes: 0,
-  sessionPasses:  0,
-  sessionFaves:   0,
+  activeLocation: 'ALL',  // filtre lieu actif (vote)
+  queueFilter:    'all',  // 'all' | 'unseen' | 'seen'
+  sessionSmashes: 0, sessionPasses: 0, sessionFaves: 0,
   prevScreen:     'setup',
-  adminView:      'grid',    // 'grid' | 'list' | 'listphoto' | 'table'
-  adminSort:      'smash',   // 'smash' | 'fave' | 'seen' | 'unseen' | 'alpha'
-  adminDir:       'desc',    // 'asc' | 'desc'
-  adminChip:      'all',     // 'all' | 'smashed' | 'faved' | 'unseen'
-  adminLoc:       null,      // null = vue lieux, string = détail d'un lieu
-  locView:        'grid',
-  locSort:        'smash',
-  locDir:         'desc',
+  adminSort:      'smash', // clé de colonne : name | loc | smash | fave | pass | total | rate
+  adminDir:       'desc',
+  adminChip:      'all',   // 'all' | 'smashed' | 'faved' | 'seen' | 'unseen'
+  adminLocFilter: 'ALL',   // filtre lieu du tableau Résultats
+  adminLoc:       null,    // null = grille des lieux, string = détail d'un lieu
 };
 ```
 
@@ -121,25 +117,35 @@ let S = {
 
 #### 🏆 Résultats
 - Stats : smashes, coups de cœur, passes, photos vues, total, taux %
-- 4 vues : ⊞ Grille / ☰ Liste / 🖼 Liste+photo / ▤ Tableau
-- Tableau avec colonnes : `# | Photo | Nom | Lieu | 💚 | ⭐ | ❌ | Vus | %`
-- Tri cliquable sur chaque colonne + bouton ↑/↓ asc/desc
-- Filtres : Toutes / 💚 Smashées / ⭐ Coups de cœur / 🆕 Pas vues
-- **Lightbox** : clic sur une image → plein écran + bouton télécharger + fermeture Échap
-- Bouton reset discret en bas (demande de taper `RESET` pour confirmer)
+- **Vue tableau uniquement** : `# | Photo | Nom | Lieu | 💚 | ⭐ | ❌ | Vus | %`
+- **Filtrer** = chips (Toutes / Smashées / Coups de cœur / Vues / Pas vues, avec compteurs) + select de lieu
+- **Trier** = clic sur un en-tête de colonne (2e clic inverse l'ordre). Pas de select de tri.
+- **Lightbox** : clic sur une miniature → plein écran + télécharger + Échap
+- Bouton reset discret en bas (taper `RESET`)
 
 #### 📍 Par lieu
-- Grille des lieux triée par smashes avec miniature top photo, barre de progression
-- Clic → vue détail du lieu avec les mêmes contrôles (vue/tri/direction)
-- Clic sur une carte de lieu → lance directement le vote sur ce lieu
+- Grille des lieux triée par smashes (miniature top photo, barre de progression)
+- Clic → détail du lieu : même tableau et mêmes filtres que Résultats + bouton "▶ Voter sur ce lieu"
 
-#### 🔥 Multi-device (Firebase)
-- Firebase Realtime Database via REST API (fetch)
-- **Validation URL** : accepte `firebaseio.com` ET `firebasedatabase.app` (région EU)
-- Polling toutes les 5 secondes
+#### ⚙️ Multi-device (roue crantée à droite des onglets)
+- Connexion Firebase (URL `firebaseio.com` ou `firebasedatabase.app`)
+- URL EU du projet : `https://pes---vote-photos-pro-default-rtdb.europe-west1.firebasedatabase.app`
+- **Partage des photos** : le poste qui a chargé le dossier envoie des copies JPEG (1080 px q0.72 + miniature 320 px q0.6) en data URL. Reprise possible (les photos déjà présentes sont ignorées). Les originaux restent sur le poste, rien n'est publié dans le repo.
+- Les appareils sans photos locales utilisables chargent automatiquement le catalogue partagé
+- Votes : écriture atomique (`{".sv":{"increment":1}}` en PATCH), lecture en temps réel via le streaming REST (EventSource), Firebase fait foi
+- Lien partageable : `#fb-{base64url(firebaseURL)}` + QR code
 - **⚠️ Limitation** : Firebase REST bloqué par la CSP de claude.ai → ne fonctionne que depuis GitHub Pages ou localhost
-- Lien partageable avec Firebase encodé dans le hash : `#fb-{base64url(firebaseURL)}`
-- QR code généré automatiquement (lib qrcode.js)
+
+### Arborescence Firebase
+
+```
+/pes/votes/{clé}          {smash, pass, fave}
+/pes/photos/meta/{clé}    {id, loc, w, h}   (écrit en dernier : une photo listée est complète)
+/pes/photos/full/{clé}    data URL 1080 px
+/pes/photos/thumb/{clé}   data URL 320 px
+```
+
+La clé est l'`id` (chemin relatif) avec `. # $ [ ] / %` encodés en `%XX` (`fbKey()`).
 
 ---
 
@@ -163,24 +169,25 @@ const SFK = 'pes-fb-url';    // URL Firebase
 
 ## Design / Branding
 
-- **Couleurs Paris en Selle** :
-    - `--g: #59A829` (vert PES primaire)
-    - `--gd: #2B6010` (vert foncé, texte/admin)
-    - `--gs: #EEF8E6` (surface verte très claire)
-    - `--gl: #B8DFA0` (bordures vertes)
+- **Couleurs Paris en Selle** (reprises de parisenselle.fr) :
+    - `--g: #269C91` (turquoise PES primaire)
+    - `--gd: #1B6E66` (turquoise foncé, texte/admin)
+    - `--gs: #E8F5F3` (surface très claire)
+    - `--gl: #A9D9D4` (bordures)
     - `--y: #FFB800` (coup de cœur/étoile)
     - `--r: #D63031` (pass/rouge)
-    - `--bg: #F5F8F2` (fond page)
-- Logo : SVG vélo maison (cycliste + bicyclette)
-- Font : system-ui
+    - `--bg: #F3F8F7` (fond page)
+- Logo : logo officiel PES (badge rond turquoise), embarqué en base64 dans la classe `.pes-logo`
+- Font : Lato
 
 ---
 
 ## Ce qui reste à faire / TODOs
 
 1. **Firebase multi-device** : fonctionne depuis GitHub Pages (pas depuis l'artifact claude.ai)
-2. **Chargement photos** : blob URLs mortes après refresh → toujours re-sélectionner le dossier
-3. Éventuel : héberger les photos sur un CDN pour éviter le re-select
+2. **Chargement local** : blob URLs mortes après refresh → re-sélectionner le dossier (ou utiliser les photos partagées)
+3. **Quotas Firebase Spark** : 1 Go stocké, 10 Go/mois téléchargés. Vérifier la taille réelle après le partage des ~2447 photos.
+4. **Règles Firebase** : ouvertes pendant l'événement, à refermer après
 
 ---
 
@@ -221,8 +228,10 @@ git push
 ```json
 {
   "rules": {
-    ".read": true,
-    ".write": true
+    "pes": {
+      ".read": true,
+      ".write": true
+    }
   }
 }
 ```
