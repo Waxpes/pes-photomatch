@@ -70,7 +70,7 @@ Chaque dossier contient des sous-dossiers (ex: `WEB_POSTPROS/`) avec les images 
 - **Image** : `object-fit: contain`, fond transparent, card adaptative selon orientation (landscape → 500×340px, portrait → 320×480px)
 - **Barre de contrôles** au-dessus des cartes :
     - Bouton lieu actif `📍 Tout aléatoire (2447) ▾` → ouvre bottom sheet de sélection
-    - Chips queue : `🎲 Toutes` / `🆕 Pas encore vues` / `🔄 Déjà vues`
+    - Chips queue : Toutes (défaut) / Pas encore vues / Déjà vues. Les deux derniers se basent sur les photos votées sur cet appareil pendant la session en cours (`S.sessionSeen`, remis à zéro à chaque nouvelle session).
 - Compteur session : smashes, passes, coups de cœur séparément
 - Bouton `⏹ Fin` pour terminer sa session proprement (stats affichées)
 
@@ -131,7 +131,8 @@ let S = {
 
 #### ⚙️ Réglages (roue crantée à droite des onglets, protégée par mot de passe)
 - **Verrou** : `const ADMIN_PASS={salt,hash,iter}` dans `index.html` (empreinte PBKDF2-SHA256, 210 000 itérations). Seule l'empreinte est commitée. Hash vide = mode configuration : l'écran de verrou génère la ligne à coller. Déverrouillage mémorisé en `sessionStorage` (`pes-admin-ok`). Protection côté navigateur uniquement (contre les curieux, pas contre un attaquant).
-- **Sauvegarde** : téléchargement JSON (lu à frais dans Firebase, sinon copie locale), restauration (remplace les votes, confirmation `RESTAURER`), sauvegarde automatique toutes les minutes dans un fichier local (File System Access API, Chrome/Edge desktop) qui se suspend si le nombre de votes baisse.
+- **Export des photos retenues** : smashées ou coups de cœur (avec un minimum de votes), copie des originaux du dossier local vers un dossier choisi (`showDirectoryPicker`, Chrome/Edge) + `classement.csv`. Rien n'est téléchargé depuis Firebase.
+- **Sauvegarde** : téléchargement JSON (lu à frais dans Firebase, sinon copie locale), restauration (remplace les votes, confirmation `RESTAURER`), sauvegarde automatique toutes les minutes dans un fichier local (relit toute la base Firebase à chaque écriture) (File System Access API, Chrome/Edge desktop) qui se suspend si le nombre de votes baisse.
 - Format de sauvegarde : `{app:'pes-photomatch', format:1, savedAt, source, votes:{[id]:{smash,pass,fave}}, ranking:[…]}`
 - **Zone sensible** : reset des votes (confirmation `RESET`). Export et reset ne sont plus accessibles ailleurs.
 - Connexion Firebase (URL `firebaseio.com` ou `firebasedatabase.app`)
