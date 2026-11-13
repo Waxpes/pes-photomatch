@@ -207,6 +207,9 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
 .up-status{font-size:12px;color:var(--gd);font-weight:700;margin-bottom:6px;min-height:16px}
 .up-track{height:6px;background:#DDEAE8;border-radius:3px;overflow:hidden;margin-bottom:4px}
 .up-bar{height:100%;width:0;background:var(--g);transition:width .3s}
+.up-bar.warn{background:#E08A00}
+.quota{font-size:11px;color:var(--muted);margin-bottom:5px;line-height:1.4}
+.quota.warn{color:#B25E00;font-weight:700}
 .share-link-box{background:var(--gd);color:#8FD6CE;border-radius:8px;padding:8px 12px;font-family:monospace;font-size:10px;word-break:break-all;cursor:pointer;margin-top:8px;line-height:1.5}
 
 /* ---- LOCATION MODAL ---- */
@@ -527,6 +530,8 @@ input[type=password]{width:100%;border:2px solid #CBDAD8;border-radius:10px;padd
       <div class="step">
         <h4>Étape 3 : partage les photos</h4>
         <p>Envoie une copie allégée des photos chargées sur ce poste (1080 px) dans Firebase, pour que les autres appareils les voient sans rien sélectionner. Les originaux restent sur ton poste. Si l'envoi est interrompu, relance-le : les photos déjà envoyées sont ignorées.</p>
+        <div class="quota" id="quota"></div>
+        <div class="up-track" style="display:none;"><div class="up-bar" id="quota-bar"></div></div>
         <div class="up-status" id="up-status"></div>
         <div class="up-track" id="up-track" style="display:none;"><div class="up-bar" id="up-bar"></div></div>
         <button class="btn-main" id="up-btn" onclick="publishPhotos()" disabled><svg class="ic" aria-hidden="true"><use href="#i-cloud-up"/></svg> Partager les photos</button>
@@ -553,8 +558,10 @@ input[type=password]{width:100%;border:2px solid #CBDAD8;border-radius:10px;padd
       </div>
       <div class="step step-danger">
         <h4>Zone sensible</h4>
-        <p>Supprime tous les votes, y compris dans Firebase. Télécharge une sauvegarde avant.</p>
+        <p>Remettre les votes à zéro supprime uniquement les votes (Firebase compris). Les photos partagées restent en place. Télécharge une sauvegarde avant.</p>
         <button class="btn-danger" onclick="openResetModal()"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg> Remettre les votes à zéro</button>
+        <p style="margin-top:12px;">Supprimer les photos partagées libère la place dans Firebase (pour les renvoyer dans un autre format par exemple). Les votes sont conservés.</p>
+        <button class="btn-danger" id="del-photos-btn" onclick="openDeletePhotosModal()"><svg class="ic" aria-hidden="true"><use href="#i-image"/></svg> Supprimer les photos partagées</button>
       </div>
     </div>
   </div>
@@ -613,7 +620,10 @@ const SK  = 'pes-vote-v4';
 const SFK = 'pes-fb-url';
 const FB_ROOT   = 'pes';   // every Firebase node lives under /pes (votes, photos)
 const FB_PREFIX = 'fb:';   // url prefix of photos shared through Firebase
-const FULL_PX = 1080, FULL_Q = .72, THUMB_PX = 320, THUMB_Q = .6;
+const FULL_PX = 900, FULL_Q = .68, THUMB_PX = 240, THUMB_Q = .6;
+// Firebase Spark plan: 1 GB stored. Sharing stops when the projected total would exceed the safe limit.
+const FB_STORAGE_BYTES = 1e9, FB_SAFE_BYTES = 9e8, PROJECT_AFTER = 20;
+const IMG_CACHE = 'pes-photos-v1'; // device cache (Cache Storage), each photo downloaded once per device
 const DT  = 72; // drag threshold px
 const IMG_RE = /\.(jpe?g|png|webp|gif|heic|avif)$/i;
 const DEMO_URLS = Array.from({length:20},(_,i)=>`https://picsum.photos/seed/pes${String(i+1).padStart(2,'0')}/420/600`);
@@ -690,12 +700,30 @@ function isFbPhoto(p){return p.url.startsWith(FB_PREFIX);}
 function imgAttrs(p,size){
   return isFbPhoto(p)?`data-fbk="${esc(p.url.slice(FB_PREFIX.length))}" data-fbs="${size}"`:`src="${esc(p.url)}"`;
 }
+const photoVersion=new Map(); // key -> bytes, busts the device cache when a photo is shared again
+async function fetchImgCached(key,size){
+  const url=fbPath(`photos/${size}/${key}`);
+  const cacheKey=`${url}?v=${photoVersion.get(key)||0}`;
+  let cache=null;
+  try{
+    if(window.caches){
+      cache=await caches.open(IMG_CACHE);
+      const hit=await cache.match(cacheKey);
+      if(hit)return await hit.json();
+    }
+  }catch(err){console.warn('Image cache read failed',err);cache=null;}
+  const res=await fetch(url);
+  if(!res.ok)return null;
+  const text=await res.text();
+  const value=JSON.parse(text);
+  if(value&&cache)cache.put(cacheKey,new Response(text,{headers:{'Content-Type':'application/json'}})).catch(err=>console.warn('Image cache write failed',err));
+  return value;
+}
 function fetchImg(key,size){
   const ck=size+':'+key;
   if(!imgCache.has(ck)){
     if(!fbURL)return Promise.resolve(null);
-    const pr=fetch(fbPath(`photos/${size}/${key}`))
-      .then(r=>r.ok?r.json():null)
+    const pr=fetchImgCached(key,size)
       .catch(err=>{console.warn('Firebase image fetch failed',key,err);return null;});
     imgCache.set(ck,pr);
     pr.then(v=>{if(!v)imgCache.delete(ck);});
@@ -1303,12 +1331,13 @@ function closeLbox(e){
 // =====================================================
 //  FIREBASE REST
 //  /pes/votes/{key}        {smash,pass,fave}, incremented server side
-//  /pes/photos/meta/{key}  {id,loc,w,h}, written last so readers only see complete photos
+//  /pes/photos/meta/{key}  {id,loc,w,h,bytes}, written last so readers only see complete photos
 //  /pes/photos/full/{key}  data url (FULL_PX)
 //  /pes/photos/thumb/{key} data url (THUMB_PX)
 // =====================================================
 let fbStream=null,remoteVotes={},mergeLocalVotes=false,remoteTimer=null;
-let publishing=false,remotePhotoCount=null;
+let publishing=false,remotePhotoCount=null,remoteBytes=0;
+const fmtMB=b=>Math.round(b/1e6)+' Mo';
 
 function isFbUrl(url){return /^https:\/\/[^/]+\.(firebaseio\.com|firebasedatabase\.app)$/.test(url);}
 // Firebase keys cannot contain . # $ [ ] / so they are percent-encoded
@@ -1394,6 +1423,7 @@ async function loadRemoteCatalog(){
   const res=await fetch(fbPath('photos/meta'));
   if(!res.ok)throw new Error('HTTP '+res.status);
   const data=await res.json()||{};
+  Object.entries(data).forEach(([k,m])=>photoVersion.set(k,m.bytes||0));
   return Object.entries(data)
     .map(([k,m])=>({id:m.id,url:FB_PREFIX+k,location:m.loc||null,w:m.w||0,h:m.h||0}))
     .sort((a,b)=>a.id.localeCompare(b.id));
@@ -1455,6 +1485,7 @@ function renderPublishState(msg){
     btn.innerHTML=ic('cloud-up')+(localCount?` Partager les ${localCount} photos de ce poste`:' Partager les photos');
   }
   if(stop)stop.style.display=publishing?'flex':'none';
+  renderQuota();
   if(st&&msg!==undefined)st.textContent=msg;
   else if(st&&!publishing){
     st.textContent=!fbURL?'':
@@ -1462,13 +1493,29 @@ function renderPublishState(msg){
       (localCount?'':' Sélectionne le dossier sur ce poste pour en partager.');
   }
 }
+async function fetchRemoteMeta(){
+  const res=await fetch(fbPath('photos/meta'));
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  return await res.json()||{};
+}
+function setRemoteStats(meta){
+  const list=Object.values(meta);
+  remotePhotoCount=list.length;
+  remoteBytes=list.reduce((s,m)=>s+(m.bytes||0),0);
+}
 async function refreshRemoteCount(){
-  try{
-    const res=await fetch(fbPath('photos/meta')+'?shallow=true');
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    remotePhotoCount=Object.keys(await res.json()||{}).length;
-  }catch(err){console.warn('Shared photo count unavailable',err);remotePhotoCount=null;}
+  try{setRemoteStats(await fetchRemoteMeta());}
+  catch(err){console.warn('Shared photo stats unavailable',err);remotePhotoCount=null;}
   if(!publishing)renderPublishState();
+}
+function renderQuota(){
+  const el=document.getElementById('quota'),bar=document.getElementById('quota-bar');
+  if(!el)return;
+  if(!fbURL||remotePhotoCount===null){el.textContent='';if(bar)bar.parentElement.style.display='none';return;}
+  const pct=Math.min(100,Math.round(remoteBytes/FB_STORAGE_BYTES*100));
+  el.textContent=`Occupation des photos : environ ${fmtMB(remoteBytes)} sur 1 Go (${pct} %). L'envoi s'arrête avant ${fmtMB(FB_SAFE_BYTES)}.`;
+  el.className='quota'+(remoteBytes>FB_SAFE_BYTES*.9?' warn':'');
+  if(bar){bar.parentElement.style.display='block';bar.style.width=pct+'%';bar.className='up-bar'+(remoteBytes>FB_SAFE_BYTES*.9?' warn':'');}
 }
 
 function connectFirebase(){
@@ -1519,7 +1566,9 @@ async function uploadPhoto(p){
   const key=fbKey(p.id);
   await fbPut('photos/full/'+key,full);
   await fbPut('photos/thumb/'+key,thumb);
-  await fbPut('photos/meta/'+key,{id:p.id,loc:p.location||null,w,h});
+  const bytes=full.length+thumb.length;
+  await fbPut('photos/meta/'+key,{id:p.id,loc:p.location||null,w,h,bytes});
+  return bytes;
 }
 async function publishPhotos(){
   if(!fbURL||publishing)return;
@@ -1533,17 +1582,25 @@ async function publishPhotos(){
   renderPublishState('Recherche des photos déjà partagées…');
   let existing={};
   try{
-    const res=await fetch(fbPath('photos/meta')+'?shallow=true');
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    existing=await res.json()||{};
+    existing=await fetchRemoteMeta();
+    setRemoteStats(existing);
   }catch(err){
     console.error('Shared photo listing failed',err);
     publishing=false;renderPublishState('Firebase injoignable, envoi annulé.');return;
   }
   const todo=local.filter(p=>!existing[fbKey(p.id)]);
   const skipped=local.length-todo.length,started=Date.now();
-  let done=0;const failed=[];
-  console.info(`Photo sharing started: ${todo.length} to send, ${skipped} already shared`);
+  let done=0,sentBytes=0,overLimit=null;const failed=[];
+  const existingBytes=remoteBytes;
+  console.info(`Photo sharing started: ${todo.length} to send, ${skipped} already shared (${fmtMB(existingBytes)})`);
+  // Stops before the free plan storage is full, based on the real size of the first photos sent
+  const checkLimit=()=>{
+    const projected=existingBytes+sentBytes+(done?sentBytes/done:0)*todo.length;
+    if(existingBytes+sentBytes>FB_SAFE_BYTES||(done>=PROJECT_AFTER&&projected>FB_SAFE_BYTES)){
+      overLimit=projected;publishing=false;
+      console.warn(`Photo sharing stopped: projected ${fmtMB(projected)} > ${fmtMB(FB_SAFE_BYTES)}`);
+    }
+  };
   const progress=()=>{
     const pct=Math.round((skipped+done+failed.length)/local.length*100);
     if(bar)bar.style.width=pct+'%';
@@ -1554,7 +1611,7 @@ async function publishPhotos(){
   const worker=async()=>{
     while(publishing&&todo.length){
       const p=todo.shift();
-      try{await uploadPhoto(p);done++;}
+      try{sentBytes+=await uploadPhoto(p);done++;remotePhotoCount=skipped+done;remoteBytes=existingBytes+sentBytes;checkLimit();}
       catch(err){failed.push(p.id);console.error('Photo upload failed',p.id,err);}
       progress();
     }
@@ -1563,12 +1620,13 @@ async function publishPhotos(){
   const interrupted=todo.length>0;
   publishing=false;
   console.info(`Photo sharing ended in ${Math.round((Date.now()-started)/1000)}s: ${done} sent, ${skipped} skipped, ${failed.length} failed${interrupted?', interrupted':''}`,failed);
-  remotePhotoCount=skipped+done;
+  remotePhotoCount=skipped+done;remoteBytes=existingBytes+sentBytes;
   renderPublishState(
+    overLimit?`Arrêté pour ne pas saturer Firebase : le total projeté (${fmtMB(overLimit)}) dépasse ${fmtMB(FB_SAFE_BYTES)}. ${skipped+done}/${local.length} photos partagées.`:
     interrupted?`Interrompu : ${skipped+done}/${local.length} photos partagées. Relance pour continuer.`:
     failed.length?`${skipped+done}/${local.length} photos partagées, ${failed.length} échec(s). Relance pour réessayer.`:
     `${local.length} photos partagées.`);
-  toast(failed.length||interrupted?'Partage incomplet':'Photos partagées',failed.length||interrupted?'warn':'ok');
+  toast(overLimit?'Partage arrêté : limite de stockage':failed.length||interrupted?'Partage incomplet':'Photos partagées',overLimit||failed.length||interrupted?'warn':'ok');
 }
 function stopPublish(){if(publishing){publishing=false;renderPublishState('Interruption après les envois en cours…');}}
 
@@ -1601,7 +1659,7 @@ function renderQR(){
 //  the PBKDF2 hash below can be committed, never the password itself.
 //  Empty hash = setup mode, the lock screen generates the line to paste here.
 // =====================================================
-const ADMIN_PASS={salt:'',hash:'',iter:210000};
+const ADMIN_PASS={salt:'1d6084d5dceb9fa679789f786a780386',hash:'cbb44813b464920b7b9fcfb5969447032ee32ed7b33ee2694a6b6246f3cbdd6e',iter:210000};
 const ADMIN_KEY='pes-admin-ok';
 let setupUnlocked=false;
 
@@ -1692,9 +1750,27 @@ function runConfirm(){const action=confirmAction;closeConfirm();if(action)action
 function openResetModal(){
   openConfirm({
     title:ic('alert')+' Remettre les votes à zéro',
-    html:'Supprime <strong>tous les votes</strong> (smash, pass, coups de cœur), y compris dans Firebase. <strong>Irréversible.</strong> Pense à télécharger une sauvegarde avant.<br><br>Tape <strong>RESET</strong> pour confirmer.',
+    html:'Supprime <strong>tous les votes</strong> (smash, pass, coups de cœur), y compris dans Firebase. <strong>Irréversible.</strong> Les photos partagées ne sont pas touchées. Pense à télécharger une sauvegarde avant.<br><br>Tape <strong>RESET</strong> pour confirmer.',
     word:'RESET',label:'Supprimer',action:executeReset,
   });
+}
+function openDeletePhotosModal(){
+  if(!fbURL){toast('Connecte Firebase d\'abord','warn');return;}
+  openConfirm({
+    title:ic('alert')+' Supprimer les photos partagées',
+    html:`Supprime de Firebase les ${remotePhotoCount??'?'} photos partagées (${fmtMB(remoteBytes)}). Les <strong>votes sont conservés</strong>. Les appareils sans dossier local n'auront plus de photos tant qu'elles ne sont pas renvoyées.<br><br>Tape <strong>PHOTOS</strong> pour confirmer.`,
+    word:'PHOTOS',label:'Supprimer les photos',action:executeDeletePhotos,
+  });
+}
+async function executeDeletePhotos(){
+  try{
+    const res=await fetch(fbPath('photos'),{method:'DELETE'});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+  }catch(err){console.error('Shared photos deletion failed',err);toast('Suppression des photos échouée','err');return;}
+  remotePhotoCount=0;remoteBytes=0;photoVersion.clear();imgCache.clear();
+  try{if(window.caches)await caches.delete(IMG_CACHE);}catch(err){console.warn('Image cache cleanup failed',err);}
+  if(S.photos.length&&S.photos.every(isFbPhoto)){S.photos=[];persist();updateResume();}
+  renderFbPanel();toast('Photos partagées supprimées','ok');
 }
 function executeReset(){
   S.votes={};persist();

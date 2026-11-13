@@ -127,10 +127,17 @@ let S = {
 - Grille des lieux triée par smashes (miniature top photo, barre de progression)
 - Clic → détail du lieu : même tableau et mêmes filtres que Résultats + bouton "▶ Voter sur ce lieu"
 
-#### ⚙️ Multi-device (roue crantée à droite des onglets)
+#### ⚙️ Réglages (roue crantée à droite des onglets, protégée par mot de passe)
+- **Verrou** : `const ADMIN_PASS={salt,hash,iter}` dans `index.html` (empreinte PBKDF2-SHA256, 210 000 itérations). Seule l'empreinte est commitée. Hash vide = mode configuration : l'écran de verrou génère la ligne à coller. Déverrouillage mémorisé en `sessionStorage` (`pes-admin-ok`). Protection côté navigateur uniquement (contre les curieux, pas contre un attaquant).
+- **Sauvegarde** : téléchargement JSON (lu à frais dans Firebase, sinon copie locale), restauration (remplace les votes, confirmation `RESTAURER`), sauvegarde automatique toutes les minutes dans un fichier local (File System Access API, Chrome/Edge desktop) qui se suspend si le nombre de votes baisse.
+- Format de sauvegarde : `{app:'pes-photomatch', format:1, savedAt, source, votes:{[id]:{smash,pass,fave}}, ranking:[…]}`
+- **Zone sensible** : reset des votes (confirmation `RESET`). Export et reset ne sont plus accessibles ailleurs.
 - Connexion Firebase (URL `firebaseio.com` ou `firebasedatabase.app`)
 - URL EU du projet : `https://pes---vote-photos-pro-default-rtdb.europe-west1.firebasedatabase.app`
-- **Partage des photos** : le poste qui a chargé le dossier envoie des copies JPEG (1080 px q0.72 + miniature 320 px q0.6) en data URL. Reprise possible (les photos déjà présentes sont ignorées). Les originaux restent sur le poste, rien n'est publié dans le repo.
+- **Partage des photos** : le poste qui a chargé le dossier envoie des copies JPEG (900 px q0.68 + miniature 240 px q0.6) en data URL, avec leur taille (`bytes`) dans la meta. Reprise possible (les photos déjà présentes sont ignorées). Les originaux restent sur le poste, rien n'est publié dans le repo.
+- **Garde-fou stockage** : après 20 photos, l'envoi projette le total à partir des tailles réelles et s'arrête au-delà de 900 Mo (`FB_SAFE_BYTES`, plan Spark = 1 Go). Jauge d'occupation dans le panneau.
+- **Cache appareil** : les images Firebase sont mises en Cache Storage (`pes-photos-v1`, clé versionnée par `bytes`), donc téléchargées une seule fois par appareil.
+- **Reset des votes** : supprime uniquement `/pes/votes`. **Supprimer les photos partagées** (confirmation `PHOTOS`) supprime uniquement `/pes/photos`.
 - Les appareils sans photos locales utilisables chargent automatiquement le catalogue partagé
 - Votes : écriture atomique (`{".sv":{"increment":1}}` en PATCH), lecture en temps réel via le streaming REST (EventSource), Firebase fait foi
 - Lien partageable : `#fb-{base64url(firebaseURL)}` + QR code
@@ -140,9 +147,9 @@ let S = {
 
 ```
 /pes/votes/{clé}          {smash, pass, fave}
-/pes/photos/meta/{clé}    {id, loc, w, h}   (écrit en dernier : une photo listée est complète)
-/pes/photos/full/{clé}    data URL 1080 px
-/pes/photos/thumb/{clé}   data URL 320 px
+/pes/photos/meta/{clé}    {id, loc, w, h, bytes}   (écrit en dernier : une photo listée est complète)
+/pes/photos/full/{clé}    data URL 900 px
+/pes/photos/thumb/{clé}   data URL 240 px
 ```
 
 La clé est l'`id` (chemin relatif) avec `. # $ [ ] / %` encodés en `%XX` (`fbKey()`).
@@ -179,6 +186,7 @@ const SFK = 'pes-fb-url';    // URL Firebase
     - `--bg: #F3F8F7` (fond page)
 - Logo : logo officiel PES (badge rond turquoise), embarqué en base64 dans la classe `.pes-logo`
 - Font : Lato
+- Icônes : sprite SVG Lucide (ISC) en tête de `<body>`, helper `ic(name, cls)`. Pas d'emoji dans l'interface.
 
 ---
 
