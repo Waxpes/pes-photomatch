@@ -19,6 +19,7 @@
   --rcard:22px;--rbtn:12px;--hh:56px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+button,input,select{font-family:inherit}
 html,body{height:100%;overflow:hidden;font-family:'Lato',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text)}
 
 /* ---- SCREENS ---- */
@@ -31,6 +32,10 @@ html,body{height:100%;overflow:hidden;font-family:'Lato',-apple-system,BlinkMacS
 .pes-logo{display:inline-block;flex-shrink:0;width:36px;height:36px;border-radius:50%;background:url(data:image/png;base64,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) center/contain no-repeat}
 .pes-logo.lg{width:96px;height:96px}
 .logo-t{line-height:1.1}
+/* Icons */
+.ic{width:1.15em;height:1.15em;vertical-align:-.2em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.ic.fill{fill:currentColor}
+.ic-smash{color:var(--g)}.ic-fave{color:var(--y)}.ic-pass{color:var(--r)}
 .logo-n{font-size:13px;font-weight:800;letter-spacing:-.3px}
 .logo-s{font-size:9px;color:var(--muted);margin-top:1px}
 .hdr-mid{flex:1;text-align:center;font-size:12px;color:var(--muted);overflow:hidden;white-space:nowrap;cursor:pointer}
@@ -108,11 +113,11 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
 .btn-vote{border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .12s,box-shadow .12s}
 .btn-vote:hover{transform:scale(1.1)}
 .btn-vote:active{transform:scale(.92)}
-.bv-pass{width:54px;height:54px;font-size:20px;background:#fff;border:2px solid #FFD0D0;box-shadow:0 4px 12px rgba(229,57,53,.14)}
+.bv-pass{width:54px;height:54px;font-size:22px;color:var(--r);background:#fff;border:2px solid #FFD0D0;box-shadow:0 4px 12px rgba(229,57,53,.14)}
 .bv-pass:hover{border-color:var(--r);box-shadow:0 6px 16px rgba(229,57,53,.26)}
-.bv-fave{width:48px;height:48px;font-size:20px;background:#fff;border:2px solid #FFE8A0;box-shadow:0 3px 10px rgba(255,184,0,.2)}
+.bv-fave{width:48px;height:48px;font-size:20px;color:var(--y);background:#fff;border:2px solid #FFE8A0;box-shadow:0 3px 10px rgba(255,184,0,.2)}
 .bv-fave:hover{border-color:var(--y);box-shadow:0 5px 14px rgba(255,184,0,.35);background:#FFFEF0}
-.bv-smash{width:66px;height:66px;font-size:24px;background:var(--g);box-shadow:0 6px 20px rgba(38,156,145,.42)}
+.bv-smash{width:66px;height:66px;font-size:26px;color:#fff;background:var(--g);box-shadow:0 6px 20px rgba(38,156,145,.42)}
 .bv-smash:hover{background:var(--gd);box-shadow:0 8px 24px rgba(38,156,145,.54)}
 /* Progress */
 .prog-wrap{width:min(350px,84vw)}
@@ -123,7 +128,7 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
 
 /* ---- END ---- */
 #s-end .body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px;gap:10px}
-#s-end .emo{font-size:52px}
+#s-end .emo{font-size:52px;color:var(--g)}
 #s-end h2{font-size:24px;font-weight:800;color:var(--gd);letter-spacing:-.4px}
 #s-end .sub{color:var(--muted);max-width:320px;line-height:1.5;font-size:14px}
 .end-btns{display:flex;flex-direction:column;gap:8px;width:100%;max-width:260px;margin-top:8px}
@@ -227,7 +232,26 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
 .qf-btn{flex:1;padding:9px;background:none;border:2px solid #CBDAD8;border-radius:10px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .15s;text-align:center;min-width:80px}
 .qf-btn.on{background:var(--g);border-color:var(--g);color:#fff}
 
-/* ---- RESET MODAL ---- */
+/* ---- GEAR LOCK & SETTINGS ---- */
+.gear-lock{display:flex;justify-content:center;padding:48px 20px}
+.lock-box{width:min(380px,100%);background:#fff;border-radius:18px;padding:26px;box-shadow:0 4px 20px rgba(10,40,38,.08);text-align:center}
+.lock-ic{font-size:30px;color:var(--g);margin-bottom:6px}
+.lock-box h3{font-size:16px;font-weight:800;color:var(--gd);margin-bottom:6px}
+.lock-box p{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:12px}
+.lock-box p.err{color:var(--r)}
+.lock-box .rules-block{text-align:left;white-space:pre-wrap;word-break:break-all}
+.gear-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:5px}
+.gear-head h3{margin:0}
+.btn-lock{background:none;border:1.5px solid #CBDAD8;border-radius:8px;padding:5px 11px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;font-family:inherit}
+.btn-lock:hover{border-color:var(--g);color:var(--gd)}
+.auto-status{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.4}
+.auto-status.warn{color:#B25E00}
+.step-danger{background:#FFF5F5;border-color:#F3C9C9}
+.btn-danger{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:11px;margin-top:4px;background:#fff;color:var(--r);border:2px solid #F3C9C9;border-radius:var(--rbtn);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+.btn-danger:hover{background:var(--r);border-color:var(--r);color:#fff}
+input[type=password]{width:100%;border:2px solid #CBDAD8;border-radius:10px;padding:10px 12px;font-size:14px;background:#F9FCFC;color:var(--text);font-family:inherit}
+
+/* ---- CONFIRM MODAL ---- */
 .rmodal-ov{position:fixed;inset:0;background:rgba(5,25,24,.55);backdrop-filter:blur(4px);z-index:10001;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .2s;pointer-events:none}
 .rmodal-ov.on{opacity:1;pointer-events:all}
 .rmodal-box{background:#fff;border-radius:18px;padding:24px;width:min(380px,100%);box-shadow:0 20px 50px rgba(5,25,24,.26);transform:translateY(10px);transition:transform .2s}
@@ -274,9 +298,49 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
 /* ---- TOAST ---- */
 #toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(60px);background:rgba(10,40,38,.92);color:#fff;padding:9px 20px;border-radius:22px;font-size:13px;pointer-events:none;z-index:9999;opacity:0;transition:transform .3s cubic-bezier(.34,1.56,.64,1),opacity .3s;white-space:nowrap}
 #toast.on{transform:translateX(-50%) translateY(0);opacity:1}
+#toast .ic{margin-right:4px}
+#toast.t-ok .ic{color:#8FD6CE}#toast.t-warn .ic{color:var(--y)}#toast.t-err .ic{color:#FF8A8A}
 </style>
 </head>
 <body>
+<!-- SVG icon sprite (Lucide, ISC license), used through ic() / <use href="#i-…"> -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="m18 14 4 4-4 4"/><path d="m18 2 4 4-4 4"/><path d="M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22"/><path d="M2 6h1.972a4 4 0 0 1 3.6 2.2"/><path d="M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
+  <symbol id="i-cloud-up" viewBox="0 0 24 24"><path d="M12 13v8"/><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="m8 17 4-4 4 4"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="i-bike" viewBox="0 0 24 24"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+</svg>
 
 <!-- ==================== SETUP ==================== -->
 <div id="s-setup" class="sc">
@@ -284,7 +348,7 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
     <div class="setup-hero">
       <span class="pes-logo lg" role="img" aria-label="Paris en Selle"></span>
       <h1>Paris en Selle</h1>
-      <p>Vote photos — édition séminaire 🚲</p>
+      <p>Vote photos — édition séminaire</p>
     </div>
 
     <div id="resume-card" class="resume-card" style="display:none">
@@ -297,10 +361,10 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
     </div>
 
     <div class="box">
-      <h2>📸 Charger les photos</h2>
+      <h2><svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg> Charger les photos</h2>
       <div class="setup-tabs">
-        <button class="setup-tab on" id="st-local" onclick="switchSetupTab('local')">🗂 Depuis mon ordi</button>
-        <button class="setup-tab" id="st-url" onclick="switchSetupTab('url')">🔗 Depuis URLs</button>
+        <button class="setup-tab on" id="st-local" onclick="switchSetupTab('local')"><svg class="ic" aria-hidden="true"><use href="#i-monitor"/></svg> Depuis mon ordi</button>
+        <button class="setup-tab" id="st-url" onclick="switchSetupTab('url')"><svg class="ic" aria-hidden="true"><use href="#i-link"/></svg> Depuis URLs</button>
       </div>
 
       <div id="load-local">
@@ -308,8 +372,8 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
         <span style="font-size:11px;color:#93ADA9;">Ne pas fermer l'onglet — votes sauvegardés par nom de fichier.</span></p>
         <input type="file" id="folder-input" webkitdirectory accept="image/*" style="display:none" onchange="loadFolder(this)">
         <input type="file" id="file-input" multiple accept="image/*" style="display:none" onchange="loadFiles(this)">
-        <button class="btn-main" onclick="document.getElementById('folder-input').click()">📂 Sélectionner le dossier (avec lieux)</button>
-        <button class="btn-alt" onclick="document.getElementById('file-input').click()">🖼 Sélectionner des fichiers (sans lieux)</button>
+        <button class="btn-main" onclick="document.getElementById('folder-input').click()"><svg class="ic" aria-hidden="true"><use href="#i-folder"/></svg> Sélectionner le dossier (avec lieux)</button>
+        <button class="btn-alt" onclick="document.getElementById('file-input').click()"><svg class="ic" aria-hidden="true"><use href="#i-image"/></svg> Sélectionner des fichiers (sans lieux)</button>
         <div id="file-info"></div>
       </div>
 
@@ -319,7 +383,7 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
         <button class="btn-main" onclick="loadURLs()">Charger →</button>
       </div>
 
-      <button class="btn-alt" onclick="loadDemo()" style="margin-top:7px;">🚲 Démo (20 photos)</button>
+      <button class="btn-alt" onclick="loadDemo()" style="margin-top:7px;"><svg class="ic" aria-hidden="true"><use href="#i-bike"/></svg> Démo (20 photos)</button>
     </div>
 
     <p class="setup-foot"><a onclick="goAdmin()">Administration</a> · Données stockées localement</p>
@@ -341,9 +405,9 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
       <span class="fb-dot" id="fb-dot"></span>
     </div>
     <div class="hdr-acts">
-      <button class="btn-pill" onclick="openLocModal()" title="Changer le lieu / filtre">📍</button>
-      <button class="btn-pill warn" onclick="stopSession()" title="Terminer (T)">⏹</button>
-      <button class="btn-pill" onclick="goAdmin()">📊</button>
+      <button class="btn-pill" onclick="openLocModal()" title="Changer le lieu / filtre" aria-label="Changer le lieu"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg></button>
+      <button class="btn-pill warn" onclick="stopSession()" title="Terminer (T)" aria-label="Terminer la session"><svg class="ic" aria-hidden="true"><use href="#i-stop"/></svg></button>
+      <button class="btn-pill" onclick="goAdmin()" title="Résultats (A)" aria-label="Résultats"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg></button>
     </div>
   </div>
 
@@ -352,24 +416,24 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
     <!-- Location + queue filter — toujours visibles au-dessus des cartes -->
     <div class="vote-ctrl-bar">
       <button class="loc-sel-btn" id="loc-sel-btn" onclick="openLocModal()">
-        <span>📍</span>
+        <svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>
         <span class="loc-sel-name" id="loc-sel-name">Tout aléatoire</span>
         <span class="loc-sel-count" id="loc-sel-count">— photos</span>
-        <span class="loc-caret">▾</span>
+        <span class="loc-caret"><svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></span>
       </button>
       <div class="qf-row">
-        <button class="qf-chip on" id="vqf-all"    onclick="setQueueFilter('all')">🎲 Toutes</button>
-        <button class="qf-chip"    id="vqf-unseen"  onclick="setQueueFilter('unseen')">🆕 Pas encore vues</button>
-        <button class="qf-chip"    id="vqf-seen"    onclick="setQueueFilter('seen')">🔄 Déjà vues</button>
+        <button class="qf-chip on" id="vqf-all"    onclick="setQueueFilter('all')"><svg class="ic" aria-hidden="true"><use href="#i-shuffle"/></svg> Toutes</button>
+        <button class="qf-chip"    id="vqf-unseen"  onclick="setQueueFilter('unseen')"><svg class="ic" aria-hidden="true"><use href="#i-sparkles"/></svg> Pas encore vues</button>
+        <button class="qf-chip"    id="vqf-seen"    onclick="setQueueFilter('seen')"><svg class="ic" aria-hidden="true"><use href="#i-rotate"/></svg> Déjà vues</button>
       </div>
     </div>
 
     <div class="stack" id="stack"></div>
 
     <div class="vote-row">
-      <button class="btn-vote bv-pass" onclick="doVote('pass')" title="Passer (←)">❌</button>
-      <button class="btn-vote bv-fave" onclick="doVote('fave')" title="Coup de cœur (↑)">⭐</button>
-      <button class="btn-vote bv-smash" onclick="doVote('smash')" title="Smash (→)">💚</button>
+      <button class="btn-vote bv-pass" onclick="doVote('pass')" title="Passer (←)" aria-label="Passer"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+      <button class="btn-vote bv-fave" onclick="doVote('fave')" title="Coup de cœur (↑)" aria-label="Coup de cœur"><svg class="ic fill" aria-hidden="true"><use href="#i-star"/></svg></button>
+      <button class="btn-vote bv-smash" onclick="doVote('smash')" title="Smash (→)" aria-label="Smash"><svg class="ic fill" aria-hidden="true"><use href="#i-heart"/></svg></button>
     </div>
 
     <div class="prog-wrap">
@@ -389,13 +453,13 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
     </div>
   </div>
   <div class="body">
-    <div class="emo">🎉</div>
+    <div class="emo"><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg></div>
     <h2>Session terminée !</h2>
     <p class="sub" id="end-txt"></p>
     <div class="end-btns">
-      <button class="btn-main" onclick="resetSession()">🔀 Nouvelle session (reshuffle)</button>
-      <button class="btn-alt" onclick="goAdmin()">📊 Voir les résultats</button>
-      <button class="btn-alt" onclick="goSetup()">⚙️ Changer les photos</button>
+      <button class="btn-main" onclick="resetSession()"><svg class="ic" aria-hidden="true"><use href="#i-shuffle"/></svg> Nouvelle session (reshuffle)</button>
+      <button class="btn-alt" onclick="goAdmin()"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg> Voir les résultats</button>
+      <button class="btn-alt" onclick="goSetup()"><svg class="ic" aria-hidden="true"><use href="#i-image"/></svg> Changer les photos</button>
     </div>
   </div>
 </div>
@@ -405,24 +469,20 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
   <div class="admin-bar">
     <div><h1>Administration</h1><small>Paris en Selle — Résultats vote photos</small></div>
     <div class="admin-bar-btns">
-      <button class="btn-dk" onclick="exportJSON()">⬇ JSON</button>
-      <button class="btn-dk" onclick="goBack()">← Retour</button>
+      <button class="btn-dk" onclick="goBack()"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"/></svg> Retour</button>
     </div>
   </div>
 
   <div class="admin-tabs">
-    <div class="atab on"  id="atab-results"  onclick="switchTab('results')">🏆 Résultats</div>
-    <div class="atab"     id="atab-lieux"    onclick="switchTab('lieux')">📍 Par lieu</div>
-    <div class="atab atab-gear" id="atab-firebase" onclick="switchTab('firebase')" title="Multi-device (Firebase)" aria-label="Réglages multi-device">⚙️<span class="fb-dot"></span></div>
+    <div class="atab on"  id="atab-results"  onclick="switchTab('results')"><svg class="ic" aria-hidden="true"><use href="#i-trophy"/></svg> Résultats</div>
+    <div class="atab"     id="atab-lieux"    onclick="switchTab('lieux')"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> Par lieu</div>
+    <div class="atab atab-gear" id="atab-firebase" onclick="switchTab('firebase')" title="Multi-device (Firebase)" aria-label="Réglages"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg><span class="fb-dot"></span></div>
   </div>
 
   <!-- RESULTS -->
   <div class="apanel" id="apanel-results">
     <div class="sstrip" id="sstrip"></div>
     <div class="ptable-wrap" id="results-table"></div>
-    <div style="text-align:center;padding:20px 0 28px;">
-      <button onclick="openResetModal()" style="background:none;border:none;font-size:11px;color:#ADC1BE;cursor:pointer;text-decoration:underline;text-underline-offset:3px;">Remettre les votes à zéro</button>
-    </div>
   </div>
 
   <!-- LIEUX -->
@@ -430,10 +490,26 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
 
   <!-- MULTI-DEVICE -->
   <div class="apanel off" id="apanel-firebase">
-    <div class="fb-panel">
-      <h3>⚙️ Multi-device</h3>
+    <div class="gear-lock" id="gear-lock">
+      <div class="lock-box">
+        <div class="lock-ic"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg></div>
+        <h3>Espace réservé</h3>
+        <p id="lock-msg">Saisis le mot de passe administrateur.</p>
+        <form id="lock-form" onsubmit="unlockGear(event)">
+          <input type="password" id="lock-input" autocomplete="current-password" placeholder="Mot de passe" aria-label="Mot de passe">
+          <button class="btn-main" type="submit" id="lock-submit"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg> Déverrouiller</button>
+        </form>
+        <div id="lock-setup" style="display:none;">
+          <div class="rules-block" id="lock-setup-line"></div>
+          <button class="btn-alt" onclick="copySetupLine()"><svg class="ic" aria-hidden="true"><use href="#i-link"/></svg> Copier la ligne</button>
+          <button class="btn-main" onclick="continueAfterSetup()">Continuer</button>
+        </div>
+      </div>
+    </div>
+    <div class="fb-panel" id="gear-content" style="display:none;">
+      <div class="gear-head"><h3><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg> Réglages</h3><button class="btn-lock" onclick="lockGear()"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg> Verrouiller</button></div>
       <p>Par défaut les votes et les photos restent dans ce navigateur. Pour voter depuis <strong>plusieurs appareils</strong>, connecte une base Firebase, partage les photos, puis diffuse le lien ou le QR code.</p>
-      <div class="fb-badge off" id="fb-badge">⬤ &nbsp;Mode local uniquement</div>
+      <div class="fb-badge off" id="fb-badge"><svg class="ic" aria-hidden="true"><use href="#i-database"/></svg> Mode local uniquement</div>
       <div class="step">
         <h4>Étape 1 : projet Firebase gratuit</h4>
         <p>Va sur <strong>console.firebase.google.com</strong>, crée un projet et active <strong>Realtime Database</strong>. Dans les règles, colle :</p>
@@ -445,7 +521,7 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
         <h4>Étape 2 : colle l'URL de ta base</h4>
         <p>Format US : <code>…firebaseio.com</code> · Format EU : <code>…europe-west1.firebasedatabase.app</code></p>
         <input id="fb-url-input" type="url" placeholder="https://mon-projet-default-rtdb.europe-west1.firebasedatabase.app" style="margin-top:7px;">
-        <button class="btn-main" onclick="connectFirebase()">🔥 Connecter Firebase</button>
+        <button class="btn-main" onclick="connectFirebase()"><svg class="ic" aria-hidden="true"><use href="#i-database"/></svg> Connecter Firebase</button>
         <button class="btn-alt" id="fb-disc-btn" onclick="disconnectFirebase()" style="display:none;">Déconnecter</button>
       </div>
       <div class="step">
@@ -453,18 +529,32 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
         <p>Envoie une copie allégée des photos chargées sur ce poste (1080 px) dans Firebase, pour que les autres appareils les voient sans rien sélectionner. Les originaux restent sur ton poste. Si l'envoi est interrompu, relance-le : les photos déjà envoyées sont ignorées.</p>
         <div class="up-status" id="up-status"></div>
         <div class="up-track" id="up-track" style="display:none;"><div class="up-bar" id="up-bar"></div></div>
-        <button class="btn-main" id="up-btn" onclick="publishPhotos()" disabled>☁️ Partager les photos</button>
-        <button class="btn-alt" id="up-stop" onclick="stopPublish()" style="display:none;">⏸ Interrompre</button>
+        <button class="btn-main" id="up-btn" onclick="publishPhotos()" disabled><svg class="ic" aria-hidden="true"><use href="#i-cloud-up"/></svg> Partager les photos</button>
+        <button class="btn-alt" id="up-stop" onclick="stopPublish()" style="display:none;"><svg class="ic" aria-hidden="true"><use href="#i-pause"/></svg> Interrompre</button>
       </div>
       <div class="step">
         <h4>Étape 4 : partage le lien ou le QR code</h4>
         <p>Ce lien connecte automatiquement l'appareil à Firebase et charge les photos partagées.</p>
-        <button class="btn-main" id="copy-link-btn" onclick="copyShareLink()" disabled>🔗 Copier le lien multi-device</button>
+        <button class="btn-main" id="copy-link-btn" onclick="copyShareLink()" disabled><svg class="ic" aria-hidden="true"><use href="#i-link"/></svg> Copier le lien multi-device</button>
         <div class="qr-box" id="qr-box" style="display:none;">
           <p>Scanne pour voter depuis n'importe quel appareil</p>
           <div id="qr-img"></div>
           <div class="share-link-box" id="share-link-box" onclick="copyShareLink()"></div>
         </div>
+      </div>
+      <div class="step">
+        <h4>Sauvegarde des votes</h4>
+        <p>Les votes vivent dans Firebase. Garde une copie sur ce poste en cas de problème : le fichier contient tous les votes et le classement, et peut être restauré.</p>
+        <button class="btn-main" onclick="downloadBackup()"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> Télécharger la sauvegarde (JSON)</button>
+        <button class="btn-alt" id="auto-btn" onclick="toggleAutoBackup()"><svg class="ic" aria-hidden="true"><use href="#i-save"/></svg> Activer la sauvegarde automatique</button>
+        <div class="auto-status" id="auto-status"></div>
+        <input type="file" id="restore-input" accept="application/json,.json" style="display:none" onchange="onRestoreFile(this)">
+        <button class="btn-alt" onclick="document.getElementById('restore-input').click()"><svg class="ic" aria-hidden="true"><use href="#i-upload"/></svg> Restaurer une sauvegarde</button>
+      </div>
+      <div class="step step-danger">
+        <h4>Zone sensible</h4>
+        <p>Supprime tous les votes, y compris dans Firebase. Télécharge une sauvegarde avant.</p>
+        <button class="btn-danger" onclick="openResetModal()"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg> Remettre les votes à zéro</button>
       </div>
     </div>
   </div>
@@ -474,28 +564,28 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
 <div class="modal-ov" id="loc-modal" onclick="handleLocOverlay(event)">
   <div class="modal-sheet">
     <div class="modal-drag"></div>
-    <div class="modal-title">📍 Choisir un lieu</div>
+    <div class="modal-title"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> Choisir un lieu</div>
     <div class="modal-list" id="modal-list"></div>
     <div class="modal-footer">
-      <button class="qf-btn on" id="qf-all"    onclick="setQueueFilter('all')">🎲 Toutes</button>
-      <button class="qf-btn"    id="qf-unseen"  onclick="setQueueFilter('unseen')">🆕 Pas vues</button>
-      <button class="qf-btn"    id="qf-seen"    onclick="setQueueFilter('seen')">🔄 Déjà vues</button>
+      <button class="qf-btn on" id="qf-all"    onclick="setQueueFilter('all')"><svg class="ic" aria-hidden="true"><use href="#i-shuffle"/></svg> Toutes</button>
+      <button class="qf-btn"    id="qf-unseen"  onclick="setQueueFilter('unseen')"><svg class="ic" aria-hidden="true"><use href="#i-sparkles"/></svg> Pas vues</button>
+      <button class="qf-btn"    id="qf-seen"    onclick="setQueueFilter('seen')"><svg class="ic" aria-hidden="true"><use href="#i-rotate"/></svg> Déjà vues</button>
     </div>
   </div>
 </div>
 
-<!-- ==================== RESET MODAL ==================== -->
-<div class="rmodal-ov" id="reset-modal" onclick="handleResetOverlay(event)">
-  <div class="rmodal-box">
-    <h3>⚠️ Remettre les votes à zéro</h3>
-    <p>Supprime <strong>tous les votes</strong> (smash, pass, coups de cœur), y compris Firebase. <strong>Irréversible.</strong><br><br>Tape <strong>RESET</strong> pour confirmer.</p>
+<!-- ==================== CONFIRM MODAL (reset, restore) ==================== -->
+<div class="rmodal-ov" id="confirm-modal" onclick="if(event.target===this)closeConfirm()">
+  <div class="rmodal-box" role="dialog" aria-modal="true" aria-labelledby="cm-title">
+    <h3 id="cm-title"></h3>
+    <p id="cm-text"></p>
     <div class="rinput-wrap">
-      <label>Confirmation</label>
-      <input id="reset-input" type="text" placeholder="RESET" oninput="onResetInput(this)" autocomplete="off" spellcheck="false">
+      <label for="cm-input">Confirmation</label>
+      <input id="cm-input" type="text" oninput="onConfirmInput(this)" autocomplete="off" spellcheck="false">
     </div>
     <div class="rmodal-acts">
-      <button class="r-cancel" onclick="closeResetModal()">Annuler</button>
-      <button class="r-confirm" id="r-confirm-btn" onclick="executeReset()" disabled>Supprimer</button>
+      <button class="r-cancel" onclick="closeConfirm()">Annuler</button>
+      <button class="r-confirm" id="cm-ok" onclick="runConfirm()" disabled></button>
     </div>
   </div>
 </div>
@@ -505,8 +595,8 @@ textarea:focus,input:focus{outline:none;border-color:var(--g)}
   <img id="lbox-img" src="" alt="">
   <div class="lbox-fname" id="lbox-fname"></div>
   <div class="lbox-bar">
-    <a class="lbox-dl" id="lbox-dl" download>⬇ Télécharger</a>
-    <button class="lbox-close" onclick="closeLbox()">✕ Fermer</button>
+    <a class="lbox-dl" id="lbox-dl" download><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> Télécharger</a>
+    <button class="lbox-close" onclick="closeLbox()"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg> Fermer</button>
   </div>
 </div>
 
@@ -576,7 +666,7 @@ function locFromPath(relPath){
 function fmtLoc(loc){
   if(!loc||loc==='ALL')return'Tout';
   const b=loc.startsWith('BONUS-');
-  return(b?'★ ':'')+( b?loc.slice(6):loc).replace(/_/g,' ');
+  return(b?'Bonus · ':'')+(b?loc.slice(6):loc).replace(/_/g,' ');
 }
 function getLocs(){
   return[...new Set(S.photos.map(p=>p.location).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
@@ -588,6 +678,7 @@ function photosFor(loc){return loc==='ALL'?S.photos:S.photos.filter(p=>p.locatio
 //  HTML HELPERS
 // =====================================================
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function ic(name,cls=''){return`<svg class="ic${cls?' '+cls:''}" aria-hidden="true"><use href="#i-${name}"/></svg>`;}
 function fname(p){return p.id.split('/').pop().split('?')[0];}
 
 // =====================================================
@@ -677,15 +768,15 @@ function updateResume(){
     // Blob URLs are dead after reload — need to re-select files
     document.getElementById('rb-v').innerHTML=
       `${tv} vote${tv!==1?'s':''} · ${locs.length?locs.length+' lieu'+(locs.length>1?'x':''):'pas de lieux'}<br>`+
-      `<span style="color:#E07020;font-size:11px;">⚠️ Re-sélectionne le dossier pour continuer — les votes sont conservés</span>`;
+      `<span style="color:#E07020;font-size:11px;">${ic('alert')} Re-sélectionne le dossier pour continuer — les votes sont conservés</span>`;
     if(btn){
-      btn.textContent='📂 Re-sélectionner';
+      btn.innerHTML=ic('folder')+' Re-sélectionner';
       btn.onclick=()=>document.getElementById('folder-input').click();
     }
   } else {
     document.getElementById('rb-v').textContent=
       tv+' vote'+(tv!==1?'s':'')+' · '+(locs.length?locs.length+' lieu'+(locs.length>1?'x':''):'pas de lieux');
-    if(btn){btn.textContent='▶ Reprendre';btn.onclick=startVoting;}
+    if(btn){btn.innerHTML=ic('play','fill')+' Reprendre';btn.onclick=startVoting;}
   }
 }
 function extractId(url){
@@ -694,7 +785,7 @@ function extractId(url){
 }
 function loadFolder(input){
   const files=Array.from(input.files).filter(f=>IMG_RE.test(f.name));
-  if(!files.length){toast('⚠️ Aucune image trouvée');return;}
+  if(!files.length){toast('Aucune image trouvée','warn');return;}
   const info=document.getElementById('file-info');
   if(info)info.textContent='Chargement…';
   S.photos=files.map(f=>({
@@ -705,24 +796,24 @@ function loadFolder(input){
   finishLoad();
   const locs=getLocs();
   if(info)info.innerHTML=
-    `✅ <strong>${files.length} photos</strong>`+
+    `${ic('check-circle')} <strong>${files.length} photos</strong>`+
     (locs.length?` dans <strong>${locs.length} lieux</strong> :<br><span style="font-size:10px;color:#93ADA9;">${locs.map(fmtLoc).join(' · ')}</span>`:'');
   setTimeout(()=>startVoting(),400);
 }
 function loadFiles(input){
   const files=Array.from(input.files).filter(f=>IMG_RE.test(f.name));
-  if(!files.length){toast('⚠️ Aucune image trouvée');return;}
+  if(!files.length){toast('Aucune image trouvée','warn');return;}
   S.photos=files.map(f=>({id:f.name,url:URL.createObjectURL(f),location:null}));
   finishLoad();
   setTimeout(()=>startVoting(),200);
 }
 function loadURLs(){
   const raw=document.getElementById('urls-input')?.value.trim();
-  if(!raw){toast('⚠️ Colle des URLs');return;}
+  if(!raw){toast('Colle des URLs','warn');return;}
   let urls=[];
   try{const p=JSON.parse(raw);if(Array.isArray(p))urls=p.map(x=>typeof x==='string'?x:x?.url||'').filter(u=>u.startsWith('http'));}
   catch{urls=raw.split('\n').map(l=>l.trim()).filter(l=>l.startsWith('http'));}
-  if(!urls.length){toast('❌ Aucune URL valide');return;}
+  if(!urls.length){toast('Aucune URL valide','err');return;}
   S.photos=urls.map(url=>({id:extractId(url),url,location:null}));
   finishLoad();
   startVoting();
@@ -743,12 +834,12 @@ function finishLoad(){
 //  VOTING
 // =====================================================
 function startVoting(){
-  if(!S.photos.length){toast('⚠️ Aucune photo chargée');return;}
+  if(!S.photos.length){toast('Aucune photo chargée','warn');return;}
   newQueue();show('voting');renderVoting();
 }
 function resetSession(){
   if(!S.photos.length){goSetup();return;}
-  newQueue();show('voting');renderVoting();toast('🔀 Photos mélangées !');
+  newQueue();show('voting');renderVoting();toast('Photos mélangées');
 }
 function recordVote(type){
   const p=cur();if(!p)return;
@@ -792,7 +883,7 @@ function updateHdr(){
     mid.classList.toggle('loc-active',S.activeLocation!=='ALL');
     // Show location name in mid if filtered
     if(S.activeLocation!=='ALL'){
-      mid.innerHTML=`📍 <b>${fmtLoc(S.activeLocation)}</b> · ${rem} restantes<span class="fb-dot${fbURL?' live':''}" id="fb-dot"></span>`;
+      mid.innerHTML=`${ic('pin')} <b>${fmtLoc(S.activeLocation)}</b> · ${rem} restantes<span class="fb-dot${fbURL?' live':''}" id="fb-dot"></span>`;
     }
   }
 }
@@ -827,12 +918,12 @@ function renderStack(){
     </div>
     <div class="card c-top" id="active-card">
       <img class="c-img" id="c-img-main" ${imgAttrs(photo,'full')} alt="" draggable="false" onerror="this.style.opacity='.1'">
-      <div class="stamp st-s" id="st-s">SMASH 💚</div>
-      <div class="stamp st-f" id="st-f">⭐ COUP DE CŒUR ⭐</div>
-      <div class="stamp st-p" id="st-p">PASS ❌</div>
+      <div class="stamp st-s" id="st-s">SMASH</div>
+      <div class="stamp st-f" id="st-f">COUP DE CŒUR</div>
+      <div class="stamp st-p" id="st-p">PASS</div>
       <div class="c-ov">
         <div class="c-fname">${esc(fname(photo).slice(0,32))}</div>
-        ${(v.smash>0||v.fave>0)?`<div class="c-cvotes">${v.smash>0?'💚 '+v.smash+' ':'' }${v.fave>0?'⭐ '+v.fave:''}</div>`:''}
+        ${(v.smash>0||v.fave>0)?`<div class="c-cvotes">${v.smash>0?ic('heart','fill')+' '+v.smash+' ':''}${v.fave>0?ic('star','fill')+' '+v.fave:''}</div>`:''}
       </div>
     </div>
   `;
@@ -928,6 +1019,7 @@ function doVote(type){animCard(type);}
 //  KEYBOARD
 // =====================================================
 document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&document.getElementById('confirm-modal').classList.contains('on')){closeConfirm();return;}
   if(e.key==='Escape'){const lb=document.getElementById('lbox');if(lb&&lb.classList.contains('on')){lb.classList.remove('on');document.getElementById('lbox-img').src='';return;}}
   const isVoting=!document.getElementById('s-voting').classList.contains('off');
   const isAdmin=!document.getElementById('s-admin').classList.contains('off');
@@ -960,7 +1052,7 @@ function renderLocModal(){
     const b=document.getElementById('qf-'+f);
     if(b)b.className='qf-btn'+(S.queueFilter===f?' on':'');
   });
-  const rows=[{loc:'ALL',label:'🎲 Tout aléatoire ('+S.photos.length+' photos)',isBonus:false,topPhoto:null}]
+  const rows=[{loc:'ALL',label:'Tout aléatoire ('+S.photos.length+' photos)',isBonus:false,topPhoto:null}]
     .concat(locs.map(loc=>{
       const photos=S.photos.filter(p=>p.location===loc);
       const smash=photos.reduce((s,p)=>s+(S.votes[p.id]?.smash||0),0);
@@ -971,22 +1063,22 @@ function renderLocModal(){
   list.innerHTML=rows.map(({loc,label,photos,smash,seen,topPhoto,isBonus})=>{
     const active=S.activeLocation===loc;
     const dispName=loc==='ALL'?label:(isBonus?'<span class="btag">BONUS</span>'+loc.slice(6).replace(/_/g,' '):loc.replace(/_/g,' '));
-    const stats=loc==='ALL'?'':` · 💚 ${smash} · 👁 ${seen}/${(photos||[]).length}`;
-    const thumb=topPhoto?`<img ${imgAttrs(topPhoto,'thumb')} loading="lazy" alt="" onerror="this.style.opacity='0'">`:`<div class="loc-no-img">📷</div>`;
+    const stats=loc==='ALL'?'':` · ${ic('heart','ic-smash')} ${smash} · ${ic('eye')} ${seen}/${(photos||[]).length}`;
+    const thumb=topPhoto?`<img ${imgAttrs(topPhoto,'thumb')} loading="lazy" alt="" onerror="this.style.opacity='0'">`:`<div class="loc-no-img">${ic('camera')}</div>`;
     return`<div class="loc-row${active?' active':''}" onclick="selectLoc('${loc}')">
       <div class="loc-thumb">${thumb}</div>
       <div class="loc-info">
-        <div class="loc-name-txt">${loc==='ALL'?'🎲 Tout aléatoire':dispName}</div>
+        <div class="loc-name-txt">${loc==='ALL'?ic('shuffle')+' Tout aléatoire':dispName}</div>
         <div class="loc-stats-txt">${loc==='ALL'?S.photos.length+' photos au total':((photos||[]).length+' photos'+stats)}</div>
       </div>
-      ${active?'<div class="loc-check">✓</div>':''}
+      ${active?'<div class="loc-check">'+ic('check')+'</div>':''}
     </div>`;
   }).join('');
   hydrateImgs(list);
 }
 function selectLoc(loc){
   S.activeLocation=loc;newQueue();closeLocModal();show('voting');renderVoting();
-  if(loc!=='ALL')toast(`📍 ${fmtLoc(loc)} · ${S.queue.length} photos`);
+  if(loc!=='ALL')toast(`${fmtLoc(loc)} · ${S.queue.length} photos`);
 }
 function setQueueFilter(f){
   S.queueFilter=f;
@@ -1019,10 +1111,10 @@ function renderAdmin(){renderResults();}
 // Filters are the chips, sorting is done by clicking the table headers
 const CHIPS=[
   ['all',    'Toutes',          ()=>true],
-  ['smashed','💚 Smashées',      p=>p.smash>0],
-  ['faved',  '⭐ Coups de cœur', p=>p.fave>0],
-  ['seen',   '👁 Vues',          p=>p.total>0],
-  ['unseen', '🆕 Pas vues',      p=>p.total===0],
+  ['smashed',ic('heart','fill ic-smash')+' Smashées', p=>p.smash>0],
+  ['faved',  ic('star','fill ic-fave')+' Coups de cœur', p=>p.fave>0],
+  ['seen',   ic('eye')+' Vues',          p=>p.total>0],
+  ['unseen', ic('sparkles')+' Pas vues',  p=>p.total===0],
 ];
 const SORTS={
   name: (a,b)=>fname(a).localeCompare(fname(b)),
@@ -1059,7 +1151,7 @@ function renderPhotoTable(el,loc,withLocFilter){
     `<button class="fchip${S.adminChip===k?' on':''}" onclick="setChip('${k}')">${label}<span class="cnt">${all.filter(f).length}</span></button>`).join('');
   const locSel=withLocFilter&&hasLocs()
     ?`<select class="loc-filter" onchange="setLocFilter(this.value)" aria-label="Filtrer par lieu">
-        <option value="ALL">📍 Tous les lieux</option>
+        <option value="ALL">Tous les lieux</option>
         ${getLocs().map(l=>`<option value="${esc(l)}"${S.adminLocFilter===l?' selected':''}>${esc(fmtLoc(l))}</option>`).join('')}
       </select>`:'';
   const th=(label,key,num)=>{
@@ -1078,7 +1170,7 @@ function renderPhotoTable(el,loc,withLocFilter){
       <thead><tr>
         <th>#</th><th></th>
         ${th('Nom','name')}${showLoc?th('Lieu','loc'):''}
-        ${th('💚','smash',1)}${th('⭐','fave',1)}${th('❌','pass',1)}${th('Vus','total',1)}${th('%','rate',1)}
+        ${th(ic('heart','fill ic-smash'),'smash',1)}${th(ic('star','fill ic-fave'),'fave',1)}${th(ic('x','ic-pass'),'pass',1)}${th('Vus','total',1)}${th('%','rate',1)}
       </tr></thead>
       <tbody>${rows.map((p,i)=>`<tr>
         <td class="td-rank">${i+1}</td>
@@ -1104,9 +1196,9 @@ function renderResults(){
   const rate=(tSmash+tPass)>0?Math.round(tSmash/(tSmash+tPass)*100):0;
   const ss=document.getElementById('sstrip');
   if(ss)ss.innerHTML=[
-    ['💚 '+tSmash,'Smashes','var(--g)'],
-    ['⭐ '+tFave,'Coups de ♥','var(--y)'],
-    ['❌ '+tPass,'Passes','var(--r)'],
+    [ic('heart','fill')+' '+tSmash,'Smashes','var(--g)'],
+    [ic('star','fill')+' '+tFave,'Coups de cœur','var(--y)'],
+    [ic('x')+' '+tPass,'Passes','var(--r)'],
     [seen,'Photos vues',''],
     [S.photos.length,'Total',''],
     [rate+'%','Taux smash',''],
@@ -1145,13 +1237,13 @@ function renderLocCards(panel){
     const rate=total>0?Math.round(smash/total*100):0;
     return`<div class="la-card" onclick="openLocDetail(${locs.indexOf(loc)})">
       <div class="la-top">
-        ${topPhoto?`<img ${imgAttrs(topPhoto,'thumb')} loading="lazy" alt="" onerror="this.style.opacity='0'">`:`<div class="no-img">📷</div>`}
+        ${topPhoto?`<img ${imgAttrs(topPhoto,'thumb')} loading="lazy" alt="" onerror="this.style.opacity='0'">`:`<div class="no-img">${ic('camera')}</div>`}
       </div>
       <div class="la-body">
         <div class="la-name">${isBonus?'<span class="bonus-tag">BONUS</span>':''}${esc(dispName)}</div>
         <div class="la-row">
-          <span class="la-smash">💚 ${smash}${fave>0?` ⭐${fave}`:''}</span>
-          <span class="la-detail">❌${pass} · ${seen}/${photos.length} · ${rate}%</span>
+          <span class="la-smash">${ic('heart','fill')} ${smash}${fave>0?` ${ic('star','fill ic-fave')} ${fave}`:''}</span>
+          <span class="la-detail">${ic('x')}${pass} · ${seen}/${photos.length} · ${rate}%</span>
         </div>
         <div class="la-bar"><div class="la-fill" style="width:${fill}%"></div></div>
       </div>
@@ -1167,7 +1259,7 @@ function renderLocDetail(panel,loc){
     <div class="loc-detail-hdr">
       <button onclick="closeLocDetail()">← Tous les lieux</button>
       <strong>${esc(fmtLoc(loc))}</strong>
-      <span>${photos.length} photos · 💚 ${smash} · 👁 ${seen}</span>
+      <span>${photos.length} photos · ${ic('heart','fill ic-smash')} ${smash} · ${ic('eye')} ${seen}</span>
       <button class="btn-vote-loc" onclick="goVoteLoc(${getLocs().indexOf(loc)})">▶ Voter sur ce lieu</button>
     </div>
     <div id="loc-table"></div>`;
@@ -1175,7 +1267,7 @@ function renderLocDetail(panel,loc){
 }
 function goVoteLoc(i){
   const loc=getLocs()[i];if(!loc)return;
-  S.activeLocation=loc;newQueue();show('voting');renderVoting();toast('📍 '+fmtLoc(loc));
+  S.activeLocation=loc;newQueue();show('voting');renderVoting();toast(fmtLoc(loc));
 }
 
 // =====================================================
@@ -1232,7 +1324,7 @@ function fbWrite(photoId,type){
   const inc={'.sv':{increment:1}};
   const body=type==='fave'?{fave:inc,smash:inc}:{[type]:inc};
   fetch(fbPath('votes/'+fbKey(photoId)),{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
-    .catch(err=>{console.error('Firebase vote write failed',photoId,err);toast('⚠️ Vote non synchronisé (réseau)');});
+    .catch(err=>{console.error('Firebase vote write failed',photoId,err);toast('Vote non synchronisé (réseau)','warn');});
 }
 
 // Live votes through the REST streaming API (only deltas are transferred)
@@ -1245,7 +1337,7 @@ function startSync(){
   };
   fbStream.addEventListener('put',e=>onEvt(e,false));
   fbStream.addEventListener('patch',e=>onEvt(e,true));
-  fbStream.addEventListener('cancel',()=>{console.error('Firebase stream cancelled (rules?)');toast('❌ Firebase refuse la lecture des votes (règles ?)');});
+  fbStream.addEventListener('cancel',()=>{console.error('Firebase stream cancelled (rules?)');toast('Firebase refuse la lecture des votes (règles ?)','err');});
   fbStream.onopen=()=>updateFbDot(true);
   fbStream.onerror=()=>updateFbDot(false);
 }
@@ -1319,7 +1411,7 @@ async function useRemotePhotos(){
     return true;
   }catch(err){
     console.error('Shared photo catalog unavailable',err);
-    toast('⚠️ Impossible de charger les photos partagées');
+    toast('Impossible de charger les photos partagées','warn');
     return false;
   }
 }
@@ -1331,19 +1423,24 @@ function updateFbDot(live){
   });
 }
 function renderFbPanel(){
+  const unlocked=isUnlocked();
+  document.getElementById('gear-lock').style.display=unlocked?'none':'flex';
+  document.getElementById('gear-content').style.display=unlocked?'block':'none';
+  if(!unlocked){renderLock();return;}
+  renderAutoBackup();
   const badge=document.getElementById('fb-badge');
   const disc=document.getElementById('fb-disc-btn');
   const inp=document.getElementById('fb-url-input');
   const copyBtn=document.getElementById('copy-link-btn');
   if(fbURL){
-    if(badge){badge.className='fb-badge on';badge.innerHTML='✅ &nbsp;Firebase connecté, multi-device actif';}
+    if(badge){badge.className='fb-badge on';badge.innerHTML=ic('check-circle')+' Firebase connecté, multi-device actif';}
     if(disc)disc.style.display='block';
     if(inp)inp.value=fbURL;
     if(copyBtn)copyBtn.disabled=false;
     renderQR();
     if(!publishing)refreshRemoteCount();
   }else{
-    if(badge){badge.className='fb-badge off';badge.innerHTML='⬤ &nbsp;Mode local uniquement';}
+    if(badge){badge.className='fb-badge off';badge.innerHTML=ic('database')+' Mode local uniquement';}
     if(disc)disc.style.display='none';
     if(copyBtn)copyBtn.disabled=true;
     const qrb=document.getElementById('qr-box');if(qrb)qrb.style.display='none';
@@ -1355,7 +1452,7 @@ function renderPublishState(msg){
   const localCount=S.photos.filter(p=>!isFbPhoto(p)).length;
   if(btn){
     btn.disabled=!fbURL||!localCount||publishing;
-    btn.textContent=localCount?`☁️ Partager les ${localCount} photos de ce poste`:'☁️ Partager les photos';
+    btn.innerHTML=ic('cloud-up')+(localCount?` Partager les ${localCount} photos de ce poste`:' Partager les photos');
   }
   if(stop)stop.style.display=publishing?'flex':'none';
   if(st&&msg!==undefined)st.textContent=msg;
@@ -1375,18 +1472,18 @@ async function refreshRemoteCount(){
 }
 
 function connectFirebase(){
-  const inp=document.getElementById('fb-url-input');if(!inp||!inp.value.trim()){toast('⚠️ Colle l\'URL Firebase d\'abord');return;}
+  const inp=document.getElementById('fb-url-input');if(!inp||!inp.value.trim()){toast('Colle l\'URL Firebase d\'abord','warn');return;}
   let url=inp.value.trim().replace(/\/+$/,'');
   if(!url.startsWith('https://'))url='https://'+url.replace(/^http:\/\//,'');
-  if(!isFbUrl(url)){toast('❌ URL Firebase invalide (firebaseio.com ou firebasedatabase.app)');return;}
-  toast('🔄 Test connexion…');
+  if(!isFbUrl(url)){toast('URL Firebase invalide (firebaseio.com ou firebasedatabase.app)','err');return;}
+  toast('Test de connexion…');
   fetch(fbPath('votes',url)+'?shallow=true')
     .then(r=>{
       if(!r.ok)throw new Error('HTTP '+r.status);
       connectSync(url);
-      toast('✅ Firebase connecté ! 🎉');
+      toast('Firebase connecté','ok');
     })
-    .catch(err=>{console.error('Firebase connection failed',err);toast('❌ Connexion échouée : vérifier URL et règles');});
+    .catch(err=>{console.error('Firebase connection failed',err);toast('Connexion échouée : vérifier URL et règles','err');});
 }
 // Shared by the settings panel, the share link and the page reload
 function connectSync(url){
@@ -1396,13 +1493,13 @@ function connectSync(url){
   if(isVisible('s-admin')&&currentTab()==='firebase')renderFbPanel();
   // Devices without usable local photos switch to the shared ones
   if(!S.photos.length||hasBlobPhotos()||S.photos.every(isFbPhoto)){
-    return useRemotePhotos().then(ok=>{if(ok)toast(`☁️ ${S.photos.length} photos partagées chargées`);return ok;});
+    return useRemotePhotos().then(ok=>{if(ok)toast(`${S.photos.length} photos partagées chargées`,'ok');return ok;});
   }
   return Promise.resolve(false);
 }
 function disconnectFirebase(){
   stopPublish();stopSync();
-  fbURL=null;remoteVotes={};remotePhotoCount=null;clearFb();updateFbDot();renderFbPanel();toast('🔌 Déconnecté : mode local');
+  fbURL=null;remoteVotes={};remotePhotoCount=null;clearFb();updateFbDot();renderFbPanel();toast('Déconnecté : mode local');
 }
 
 // ---- Photo sharing: resized copies of the local photos go to Firebase ----
@@ -1427,9 +1524,9 @@ async function uploadPhoto(p){
 async function publishPhotos(){
   if(!fbURL||publishing)return;
   const local=S.photos.filter(p=>!isFbPhoto(p));
-  if(!local.length){toast('⚠️ Sélectionne d\'abord le dossier photos sur ce poste');return;}
+  if(!local.length){toast('Sélectionne d\'abord le dossier photos sur ce poste','warn');return;}
   try{await fetch(local[0].url);}
-  catch(_){toast('⚠️ Photos expirées : re-sélectionne le dossier');return;}
+  catch(_){toast('Photos expirées : re-sélectionne le dossier','warn');return;}
   publishing=true;
   const track=document.getElementById('up-track'),bar=document.getElementById('up-bar');
   if(track)track.style.display='block';
@@ -1441,7 +1538,7 @@ async function publishPhotos(){
     existing=await res.json()||{};
   }catch(err){
     console.error('Shared photo listing failed',err);
-    publishing=false;renderPublishState('❌ Firebase injoignable, envoi annulé.');return;
+    publishing=false;renderPublishState('Firebase injoignable, envoi annulé.');return;
   }
   const todo=local.filter(p=>!existing[fbKey(p.id)]);
   const skipped=local.length-todo.length,started=Date.now();
@@ -1468,10 +1565,10 @@ async function publishPhotos(){
   console.info(`Photo sharing ended in ${Math.round((Date.now()-started)/1000)}s: ${done} sent, ${skipped} skipped, ${failed.length} failed${interrupted?', interrupted':''}`,failed);
   remotePhotoCount=skipped+done;
   renderPublishState(
-    interrupted?`⏸ Interrompu : ${skipped+done}/${local.length} photos partagées. Relance pour continuer.`:
-    failed.length?`⚠️ ${skipped+done}/${local.length} photos partagées, ${failed.length} échec(s). Relance pour réessayer.`:
-    `✅ ${local.length} photos partagées.`);
-  toast(failed.length||interrupted?'⚠️ Partage incomplet':'✅ Photos partagées !');
+    interrupted?`Interrompu : ${skipped+done}/${local.length} photos partagées. Relance pour continuer.`:
+    failed.length?`${skipped+done}/${local.length} photos partagées, ${failed.length} échec(s). Relance pour réessayer.`:
+    `${local.length} photos partagées.`);
+  toast(failed.length||interrupted?'Partage incomplet':'Photos partagées',failed.length||interrupted?'warn':'ok');
 }
 function stopPublish(){if(publishing){publishing=false;renderPublishState('Interruption après les envois en cours…');}}
 
@@ -1480,8 +1577,8 @@ function b64e(s){return btoa(unescape(encodeURIComponent(s))).replace(/\+/g,'-')
 function b64d(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return decodeURIComponent(escape(atob(s)));}
 function getShareLink(){if(!fbURL)return null;return window.location.href.split('#')[0]+'#fb-'+b64e(fbURL);}
 function copyShareLink(){
-  const link=getShareLink();if(!link){toast('⚠️ Connecte Firebase d\'abord');return;}
-  navigator.clipboard.writeText(link).then(()=>toast('🔗 Lien copié !')).catch(()=>toast('📋 Copie le lien dans la box verte'));
+  const link=getShareLink();if(!link){toast('Connecte Firebase d\'abord','warn');return;}
+  navigator.clipboard.writeText(link).then(()=>toast('Lien copié','ok')).catch(()=>toast('Copie le lien affiché sous le QR code','warn'));
 }
 function renderQR(){
   const qrb=document.getElementById('qr-box');
@@ -1499,46 +1596,272 @@ function renderQR(){
 }
 
 // =====================================================
-//  RESET MODAL
+//  SETTINGS LOCK
+//  Keeps curious attendees out of the settings tab. Client side only:
+//  the PBKDF2 hash below can be committed, never the password itself.
+//  Empty hash = setup mode, the lock screen generates the line to paste here.
 // =====================================================
-function openResetModal(){
-  const inp=document.getElementById('reset-input');const btn=document.getElementById('r-confirm-btn');
-  if(inp)inp.value='';if(btn){btn.disabled=true;btn.className='r-confirm';}
-  document.getElementById('reset-modal').classList.add('on');
-  setTimeout(()=>{if(inp)inp.focus();},200);
+const ADMIN_PASS={salt:'',hash:'',iter:210000};
+const ADMIN_KEY='pes-admin-ok';
+let setupUnlocked=false;
+
+function hexToBytes(h){return new Uint8Array(h.match(/../g).map(x=>parseInt(x,16)));}
+function bytesToHex(b){return[...b].map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function hashPassword(pw,saltHex,iter){
+  if(!window.crypto?.subtle)throw new Error('WebCrypto unavailable (HTTPS or localhost required)');
+  const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveBits']);
+  const bits=await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:hexToBytes(saltHex),iterations:iter},key,256);
+  return bytesToHex(new Uint8Array(bits));
 }
-function closeResetModal(){document.getElementById('reset-modal').classList.remove('on');}
-function handleResetOverlay(e){if(e.target===document.getElementById('reset-modal'))closeResetModal();}
-function onResetInput(inp){
-  const ok=inp.value.trim().toUpperCase()==='RESET';
-  const btn=document.getElementById('r-confirm-btn');
-  if(btn){btn.disabled=!ok;btn.className='r-confirm'+(ok?' rdy':'');}
+function isUnlocked(){
+  if(setupUnlocked)return true;
+  try{return!!ADMIN_PASS.hash&&sessionStorage.getItem(ADMIN_KEY)===ADMIN_PASS.hash;}catch(_){return false;}
 }
-function executeReset(){
-  S.votes={};persist();
-  if(fbURL)fetch(fbPath('votes'),{method:'DELETE'}).catch(err=>{console.error('Firebase reset failed',err);toast('⚠️ Reset Firebase échoué');});
-  closeResetModal();renderTab(currentTab());toast('🗑 Votes supprimés');
+function lockMsg(text,isErr){
+  const el=document.getElementById('lock-msg');if(!el)return;
+  el.textContent=text;el.className=isErr?'err':'';
+}
+function renderLock(){
+  const setup=!ADMIN_PASS.hash;
+  document.getElementById('lock-form').style.display='block';
+  document.getElementById('lock-setup').style.display='none';
+  document.getElementById('lock-input').autocomplete=setup?'new-password':'current-password';
+  document.getElementById('lock-submit').innerHTML=ic('lock')+(setup?' Générer le mot de passe':' Déverrouiller');
+  lockMsg(setup
+    ?'Aucun mot de passe configuré. Choisis-en un (10 caractères minimum, une phrase est idéale) : l\'app génère la ligne à coller dans index.html. Seule son empreinte y sera stockée.'
+    :'Saisis le mot de passe administrateur.');
+}
+async function unlockGear(e){
+  e.preventDefault();
+  const inp=document.getElementById('lock-input');const pw=inp.value;
+  if(!pw)return;
+  try{
+    if(!ADMIN_PASS.hash){
+      if(pw.length<10){lockMsg('Choisis au moins 10 caractères.',true);return;}
+      const salt=bytesToHex(crypto.getRandomValues(new Uint8Array(16)));
+      const hash=await hashPassword(pw,salt,ADMIN_PASS.iter);
+      inp.value='';
+      document.getElementById('lock-form').style.display='none';
+      document.getElementById('lock-setup-line').textContent=`const ADMIN_PASS={salt:'${salt}',hash:'${hash}',iter:${ADMIN_PASS.iter}};`;
+      document.getElementById('lock-setup').style.display='block';
+      lockMsg('Remplace la ligne "const ADMIN_PASS=…" de index.html par celle-ci, puis publie. En attendant, le panneau reste ouvert pour cette session.');
+      return;
+    }
+    const hash=await hashPassword(pw,ADMIN_PASS.salt,ADMIN_PASS.iter);
+    inp.value='';
+    if(hash!==ADMIN_PASS.hash){lockMsg('Mot de passe incorrect.',true);return;}
+    try{sessionStorage.setItem(ADMIN_KEY,hash);}catch(_){setupUnlocked=true;}
+    renderFbPanel();
+  }catch(err){
+    console.error('Password check failed',err);
+    lockMsg('Vérification impossible : ouvre la page en HTTPS (GitHub Pages) ou sur localhost.',true);
+  }
+}
+function copySetupLine(){
+  const line=document.getElementById('lock-setup-line').textContent;
+  navigator.clipboard.writeText(line).then(()=>toast('Ligne copiée','ok')).catch(()=>toast('Sélectionne la ligne pour la copier','warn'));
+}
+function continueAfterSetup(){setupUnlocked=true;renderFbPanel();}
+function lockGear(){
+  setupUnlocked=false;
+  try{sessionStorage.removeItem(ADMIN_KEY);}catch(_){}
+  renderFbPanel();
 }
 
 // =====================================================
-//  EXPORT
+//  CONFIRM MODAL (typed keyword, used by reset and restore)
 // =====================================================
-function exportJSON(){
-  const data=S.photos.map(p=>({id:p.id,url:p.url,location:p.location||null,smash:S.votes[p.id]?.smash||0,pass:S.votes[p.id]?.pass||0,fave:S.votes[p.id]?.fave||0,total:(S.votes[p.id]?.smash||0)+(S.votes[p.id]?.pass||0)})).sort((a,b)=>b.smash-a.smash);
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=Object.assign(document.createElement('a'),{href:url,download:`paris-en-selle-votes-${new Date().toISOString().slice(0,10)}.json`});
+let confirmAction=null,confirmWord='';
+function openConfirm({title,html,word,label,action}){
+  confirmAction=action;confirmWord=word;
+  document.getElementById('cm-title').innerHTML=title;
+  document.getElementById('cm-text').innerHTML=html;
+  const inp=document.getElementById('cm-input');inp.value='';inp.placeholder=word;
+  const btn=document.getElementById('cm-ok');btn.textContent=label;btn.disabled=true;btn.className='r-confirm';
+  document.getElementById('confirm-modal').classList.add('on');
+  setTimeout(()=>inp.focus(),200);
+}
+function closeConfirm(){document.getElementById('confirm-modal').classList.remove('on');confirmAction=null;}
+function onConfirmInput(inp){
+  const ok=inp.value.trim().toUpperCase()===confirmWord;
+  const btn=document.getElementById('cm-ok');
+  btn.disabled=!ok;btn.className='r-confirm'+(ok?' rdy':'');
+}
+function runConfirm(){const action=confirmAction;closeConfirm();if(action)action();}
+
+function openResetModal(){
+  openConfirm({
+    title:ic('alert')+' Remettre les votes à zéro',
+    html:'Supprime <strong>tous les votes</strong> (smash, pass, coups de cœur), y compris dans Firebase. <strong>Irréversible.</strong> Pense à télécharger une sauvegarde avant.<br><br>Tape <strong>RESET</strong> pour confirmer.',
+    word:'RESET',label:'Supprimer',action:executeReset,
+  });
+}
+function executeReset(){
+  S.votes={};persist();
+  if(fbURL)fetch(fbPath('votes'),{method:'DELETE'}).catch(err=>{console.error('Firebase reset failed',err);toast('Reset Firebase échoué','err');});
+  renderTab(currentTab());toast('Votes supprimés','ok');
+}
+
+// =====================================================
+//  BACKUP / RESTORE
+//  File format: {app, format, savedAt, source, votes:{[photo id]:{smash,pass,fave}}, ranking:[…]}
+// =====================================================
+function idFromKey(k){return k.replace(/%([0-9A-F]{2})/g,(_,h)=>String.fromCharCode(parseInt(h,16)));}
+function countVotes(votes){return Object.values(votes).reduce((s,v)=>s+(v.smash||0)+(v.pass||0),0);}
+function fileStamp(){const d=new Date(),z=n=>String(n).padStart(2,'0');return`${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}_${z(d.getHours())}h${z(d.getMinutes())}`;}
+function buildBackup(votes,source){
+  const ranking=S.photos.map(p=>{
+    const v=votes[p.id]||{};
+    const smash=v.smash||0,pass=v.pass||0,fave=v.fave||0,total=smash+pass;
+    return{id:p.id,location:p.location||null,smash,pass,fave,total,rate:total?Math.round(smash/total*100):0};
+  }).sort((a,b)=>b.smash-a.smash||b.fave-a.fave);
+  return{app:'pes-photomatch',format:1,savedAt:new Date().toISOString(),source,
+    firebaseURL:fbURL||null,photoCount:S.photos.length,voteCount:countVotes(votes),votes,ranking};
+}
+function downloadJSON(obj,name){
+  const url=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:'application/json'}));
+  const a=Object.assign(document.createElement('a'),{href:url,download:name});
   document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
-  toast('⬇️ Export téléchargé !');
+}
+// Fresh read from Firebase when connected, so the file reflects every device
+async function fetchFirebaseVotes(){
+  const res=await fetch(fbPath('votes'));
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  const votes={};
+  Object.entries(await res.json()||{}).forEach(([k,v])=>{votes[idFromKey(k)]={smash:v.smash||0,pass:v.pass||0,fave:v.fave||0};});
+  return votes;
+}
+async function downloadBackup(){
+  if(fbURL){
+    try{
+      downloadJSON(buildBackup(await fetchFirebaseVotes(),'firebase'),`pes-votes-${fileStamp()}.json`);
+      toast('Sauvegarde téléchargée','ok');
+      return;
+    }catch(err){console.error('Firebase backup read failed, falling back to local copy',err);}
+  }
+  downloadJSON(buildBackup({...S.votes},'local'),`pes-votes-${fileStamp()}.json`);
+  toast(fbURL?'Firebase injoignable : copie locale téléchargée':'Sauvegarde téléchargée',fbURL?'warn':'ok');
+}
+function sanitizeVotes(raw){
+  const n=x=>Math.max(0,Math.floor(Number(x)||0));
+  const out={};
+  Object.entries(raw).forEach(([id,v])=>{
+    if(!v||typeof v!=='object')return;
+    const c={smash:n(v.smash),pass:n(v.pass),fave:n(v.fave)};
+    if(c.smash||c.pass||c.fave)out[id]=c;
+  });
+  return out;
+}
+async function onRestoreFile(input){
+  const file=input.files[0];input.value='';
+  if(!file)return;
+  let data;
+  try{data=JSON.parse(await file.text());}
+  catch(err){console.warn('Restore: invalid JSON',err);toast('Fichier illisible (JSON invalide)','err');return;}
+  if(data?.app!=='pes-photomatch'||!data.votes||typeof data.votes!=='object'){toast('Ce fichier n\'est pas une sauvegarde de l\'app','err');return;}
+  const votes=sanitizeVotes(data.votes);
+  const when=data.savedAt?new Date(data.savedAt).toLocaleString('fr-FR'):'date inconnue';
+  openConfirm({
+    title:ic('upload')+' Restaurer une sauvegarde',
+    html:`Sauvegarde du <strong>${esc(when)}</strong> : ${countVotes(votes)} votes sur ${Object.keys(votes).length} photos.<br>Les votes actuels${fbURL?', Firebase compris,':''} seront <strong>remplacés</strong>.<br><br>Tape <strong>RESTAURER</strong> pour confirmer.`,
+    word:'RESTAURER',label:'Restaurer',action:()=>applyRestore(votes),
+  });
+}
+async function applyRestore(votes){
+  if(fbURL){
+    const body={};
+    Object.entries(votes).forEach(([id,v])=>{body[fbKey(id)]=v;});
+    try{await fbPut('votes',body);}
+    catch(err){console.error('Firebase restore failed',err);toast('Restauration Firebase échouée','err');return;}
+  }
+  S.votes=votes;persist();
+  renderTab(currentTab());
+  toast(`Sauvegarde restaurée (${countVotes(votes)} votes)`,'ok');
+}
+
+// ---- Automatic backup into a file on this computer (File System Access API: Chrome / Edge desktop) ----
+const AUTO_BACKUP_MS=60000;
+const autoBackup={handle:null,timer:null,lastJSON:'',lastTotal:0,paused:false,lastAt:null};
+async function toggleAutoBackup(){
+  if(autoBackup.handle){stopAutoBackup();return;}
+  if(!('showSaveFilePicker' in window))return;
+  try{
+    autoBackup.handle=await window.showSaveFilePicker({
+      suggestedName:`pes-votes-auto-${fileStamp()}.json`,
+      types:[{description:'Sauvegarde JSON',accept:{'application/json':['.json']}}],
+    });
+  }catch(err){
+    if(err.name!=='AbortError'){console.error('Auto backup file picker failed',err);toast('Impossible de créer le fichier','err');}
+    return;
+  }
+  Object.assign(autoBackup,{lastJSON:'',lastTotal:0,paused:false,lastAt:null});
+  await writeAutoBackup();
+  autoBackup.timer=setInterval(writeAutoBackup,AUTO_BACKUP_MS);
+  console.info('Auto backup started');
+  renderAutoBackup();
+}
+function stopAutoBackup(){
+  clearInterval(autoBackup.timer);
+  autoBackup.handle=null;autoBackup.timer=null;
+  console.info('Auto backup stopped');
+  renderAutoBackup();
+}
+async function writeAutoBackup(){
+  if(!autoBackup.handle)return;
+  const votes={...S.votes},total=countVotes(votes);
+  // Votes only go up: a drop means a reset or a wiped database, so the last good file is kept
+  if(total<autoBackup.lastTotal){
+    if(!autoBackup.paused)console.warn(`Auto backup paused: votes dropped from ${autoBackup.lastTotal} to ${total}`);
+    autoBackup.paused=true;renderAutoBackup();return;
+  }
+  autoBackup.paused=false;
+  const json=JSON.stringify(votes);
+  if(json===autoBackup.lastJSON){renderAutoBackup();return;}
+  try{
+    const w=await autoBackup.handle.createWritable();
+    await w.write(JSON.stringify(buildBackup(votes,fbURL?'firebase-mirror':'local'),null,1));
+    await w.close();
+    Object.assign(autoBackup,{lastJSON:json,lastTotal:total,lastAt:new Date()});
+  }catch(err){
+    console.error('Auto backup write failed',err);
+    toast('Sauvegarde automatique échouée','err');
+  }
+  renderAutoBackup();
+}
+function renderAutoBackup(){
+  const btn=document.getElementById('auto-btn'),st=document.getElementById('auto-status');
+  if(!btn||!st)return;
+  if(!('showSaveFilePicker' in window)){
+    btn.disabled=true;
+    st.className='auto-status';
+    st.textContent='Sauvegarde automatique disponible uniquement sous Chrome ou Edge sur ordinateur. Utilise le téléchargement manuel.';
+    return;
+  }
+  btn.innerHTML=ic(autoBackup.handle?'stop':'save')+(autoBackup.handle?' Arrêter la sauvegarde automatique':' Activer la sauvegarde automatique');
+  if(!autoBackup.handle){
+    st.className='auto-status';
+    st.textContent='Écrit les votes dans un fichier de ton choix toutes les minutes. À réactiver après un rechargement de la page.';
+  }else if(autoBackup.paused){
+    st.className='auto-status warn';
+    st.textContent=`Sauvegarde suspendue : le nombre de votes a baissé (reset ou incident). Le fichier garde la dernière version (${autoBackup.lastTotal} votes). Arrête puis réactive vers un nouveau fichier pour repartir.`;
+  }else{
+    st.className='auto-status';
+    st.textContent=autoBackup.lastAt
+      ?`Active. Dernière écriture à ${autoBackup.lastAt.toLocaleTimeString('fr-FR')} (${autoBackup.lastTotal} votes).`
+      :'Active.';
+  }
 }
 
 // =====================================================
 //  TOAST
 // =====================================================
 let tt;
-function toast(msg){
+const TOAST_ICON={info:'info',ok:'check-circle',warn:'alert',err:'x-circle'};
+function toast(msg,kind='info'){
   const el=document.getElementById('toast');if(!el)return;
-  el.textContent=msg;el.classList.add('on');clearTimeout(tt);
+  el.className='t-'+kind;
+  el.innerHTML=ic(TOAST_ICON[kind]||'info')+' '+esc(msg);
+  el.classList.add('on');clearTimeout(tt);
   tt=setTimeout(()=>el.classList.remove('on'),2600);
 }
 
@@ -1552,8 +1875,8 @@ function handleHash(){
   if(!h.startsWith('#fb-'))return;
   let url=null;
   try{url=b64d(h.slice(4));}catch(err){console.warn('Invalid share link',err);}
-  if(!url||!isFbUrl(url)){toast('❌ Lien multi-device invalide');return;}
-  if(url!==fbURL)toast('🔥 Firebase auto-connecté !');
+  if(!url||!isFbUrl(url)){toast('Lien multi-device invalide','err');return;}
+  if(url!==fbURL)toast('Firebase connecté automatiquement','ok');
   connectSync(url);
 }
 window.addEventListener('hashchange',handleHash);
